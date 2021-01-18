@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#name : GC - command
+#key : cmd
+#contributor : Gaël Chamoulaud
+# --
+command: $1

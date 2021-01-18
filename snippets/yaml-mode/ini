@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+#name : GC - ini
+#key : ini
+#contributor : Gaël Chamoulaud
+# --
+- name: $1
+  validations_read_file:
+    path: "${2:/home/john/doe/file}"
+    section: ${3:DEFAULT}
+    key: $5
+    ignore_missing_file: ${4:$$(yas-choose-value '("True" "False"))}
+  $0

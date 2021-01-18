@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+#name : GC - fail
+#key : fail
+#contributor : Gaël Chamoulaud
+# --
+- name: $1
+  fail:
+    msg: >-
+      $2
+  when: $3

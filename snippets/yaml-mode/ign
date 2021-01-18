@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#name : GC - ign
+#key : ign
+#contributor : Gaël Chamoulaud
+# --
+ignore_errors: True

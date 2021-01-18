@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+#name : GC - name
+#key : name
+#contributor : Gaël Chamoulaud
+# --
+- name: $1
+  $2

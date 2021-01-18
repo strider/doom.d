@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#name : GC - rhbz
+#key : rhbz
+#contributor : Gaël Chamoulaud
+# --
+Resolves: rhbz#${1:0000000}

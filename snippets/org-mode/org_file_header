@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: GC org_file_header
+# key: head_
+# --
+#+TITLE: $1
+#+AUTHOR: `(format "%s" user-full-name)`
+#+EMAIL: `(format "%s" user-mail-address)`
+#+DATE: `(shell-command-to-string "printf %s \"$(date)\"")`
+#+TAGS: $0

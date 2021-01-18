@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+#name : GC - hosts
+#key : hosts
+#contributor : Gaël Chamoulaud
+# --
+---
+- hosts: $1
+  vars:
+    metadata:
+      name: $2
+      description: >
+        $3
+      groups:
+        - $4
+    $0

@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: GC function_docstring
+# key: fd
+# group: definitions
+# --
+def ${1:name}($2):
+    \"\"\"$3
+    ${2:$(python-args-to-docstring)}
+    \"\"\"
+    $0

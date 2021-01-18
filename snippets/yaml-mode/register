@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#name : GC - register
+#key : reg
+#contributor : Gaël Chamoulaud
+# --
+register: $1

@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: todo
+# key: t
+# binding: C-I d e f
+# --
+`(yas-with-comment "TODO(gchamoul): ")`

@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: GC pds sphinx docstrings
+# key: pds
+# --
+:param $1: $2
+:type $1: \`\`$3\`\`$0

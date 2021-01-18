@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#name : GC - become
+#key : bc
+#contributor : Gaël Chamoulaud
+# --
+become: True$0

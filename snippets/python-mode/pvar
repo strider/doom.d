@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#name : GC - print variables
+#key : pvar
+#contributor : Gaël Chamoulaud
+# --
+print("[`(file-name-nondirectory (buffer-file-name))`] $1", $1)
