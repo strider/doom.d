@@ -38,6 +38,7 @@
  doom-modeline-modal-icon nil
  )
 
+(global-anzu-mode +1)
 (global-set-key (kbd "C-;") 'iedit-mode)
 (setq ivy-use-virtual-buffers t)
 (setq ivy-count-format "(%d/%d) ")
