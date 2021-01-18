@@ -40,7 +40,7 @@
 
 (setq ivy-use-virtual-buffers t)
 (setq ivy-count-format "(%d/%d) ")
-(all-the-icons-ivy-setup)
+;; (all-the-icons-ivy-setup)
 (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 (setq dired-recursive-deletes 'always)
 (setq dired-listing-switches "-alh")

@@ -20,8 +20,8 @@
 (package! all-the-icons-dired
   :recipe (:host github :repo "jtbm37/all-the-icons-dired"))
 
-(package! all-the-icons-ivy
-  :recipe (:host github :repo "asok/all-the-icons-ivy"))
+;; (package! all-the-icons-ivy
+;;   :recipe (:host github :repo "asok/all-the-icons-ivy"))
 
 (package! ivy-yasnippet
   :recipe (:host github :repo "mkcms/ivy-yasnippet"))
