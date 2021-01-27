@@ -17,29 +17,36 @@
 
 (package! aggressive-indent)
 
-(package! all-the-icons-dired
-  :recipe (:host github :repo "jtbm37/all-the-icons-dired"))
-
-;; (package! all-the-icons-ivy
-;;   :recipe (:host github :repo "asok/all-the-icons-ivy"))
+(package! modus-themes
+  :recipe (:host gitlab :repo "protesilaos/modus-themes"))
 
 (package! ivy-yasnippet
   :recipe (:host github :repo "mkcms/ivy-yasnippet"))
 
 (package! smyx-theme)
-
-(package! diredfl
-  :recipe (:host github :repo "purcell/diredfl"))
-
+(package! auto-yasnippet)
 (package! rpm-spec-mode
   :recipe (:host github :repo "stigbjorlykke/rpm-spec-mode"))
 
 (package! iedit
   :recipe (:host github :repo "victorhge/iedit"))
 
-(package! ranger
-  :recipe (:host github :repo "ralesi/ranger.el"))
-
+(package! peep-dired)
+(package! dmenu)
+(package! ivy-posframe)
+(package! rainbow-mode)
+(package! async)
+(package! git-gutter+)
+(package! lsp-pyright)
+(package! elfeed)
+(package! elfeed-org)
+(package! jinja2-mode)
+(package! flx-ido)
+(package! lsp-ui)
+(package! calibredb)
+(package! nov)
+(package! fzf)
+(package! faff-theme)
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
 ;; https://github.com/raxod502/straight.el#the-recipe-format

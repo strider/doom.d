@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: hi all
+# key: msg-all
+# --
+Hi all,
+
+$0
+
+Cheers,
+Gaël
+
+--
+Gaël Chamoulaud (He/Him/His)
+.::. Red Hat .::. OpenStack .::.
