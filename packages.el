@@ -17,9 +17,6 @@
 
 (package! aggressive-indent)
 
-(package! modus-themes
-  :recipe (:host gitlab :repo "protesilaos/modus-themes"))
-
 (package! ivy-yasnippet
   :recipe (:host github :repo "mkcms/ivy-yasnippet"))
 
@@ -41,12 +38,19 @@
 (package! elfeed)
 (package! elfeed-org)
 (package! jinja2-mode)
-(package! flx-ido)
+;; (package! flx-ido)
 (package! lsp-ui)
 (package! calibredb)
 (package! nov)
 (package! fzf)
-(package! faff-theme)
+
+(package! modus-theme
+  :recipe (:host gitlab :repo "protesilaos/modus-themes"))
+
+(package! emacs-doom-themes
+  :recipe (:host github :repo "hlissner/emacs-doom-themes"))
+
+;; (package! org-msg :disable t)
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
 ;; https://github.com/raxod502/straight.el#the-recipe-format

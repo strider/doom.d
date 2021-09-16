@@ -18,10 +18,68 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-;; '(default ((t (:family "Fira Code" :foundry "CTDB" :slant normal :weight normal :height 128 :width normal)))))
-(setq doom-font (font-spec :family "JetBrains Mono" :size 14.0 :weight 'normal)
-      doom-variable-pitch-font (font-spec :family "JetBrains Mono" :size 14.0 :weight 'normal)
-      doom-big-font(font-spec :family "JetBrains Mono" :size 25))
+(setq doom-font (font-spec :family "JetBrains Mono" :size 12.0 :weight 'normal)
+      doom-variable-pitch-font (font-spec :family "JetBrains Mono" :size 12.0 :weight 'normal))
+
+(setq doom-fallback-buffer-name "► Doom"
+      +doom-dashboard-name "► Doom")
+
+(menu-bar-mode t)
+
+(setq all-the-icons-scale-factor 1.1)
+
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+(add-to-list 'default-frame-alist '(fullscreen . fullheight))
+
+(after! doom-modeline
+  (doom-modeline-def-modeline 'main
+    '(bar matches buffer-info remote-host buffer-position word-count parrot selection-info)
+    '(misc-info debug lsp minor-modes checker input-method indent-info
+                buffer-encoding major-mode process checker vcs "  ")) ; <-- added padding here
+  (setq doom-modeline-height 25
+        doom-modeline-bar-width 3
+        doom-modeline-major-mode-color-icon t
+        doom-modeline-major-mode-icon t
+        doom-modeline-buffer-file-name-style 'truncate-all
+        doom-modeline-display-default-persp-name t
+        doom-modeline-persp-name t
+        doom-modeline-gnus nil
+        doom-modeline-minor-modes nil
+        doom-modeline-modal-icon nil)
+  )
+
+(lsp-ui-mode)
+(after! lsp-ui
+  (setq lsp-ui-doc-enable nil
+        lsp-ui-doc-header t
+        lsp-ui-doc-include-signature t
+        lsp-ui-peek-enable t
+        lsp-ui-peek-show-directory t
+        lsp-ui-imenu-enable t
+        lsp-ui-imenu-auto-refresh t
+        lsp-ui-sideline-show-diagnostics t
+        lsp-ui-sideline-show-hover t
+        lsp-ui-sideline-show-code-actions t
+        lsp-ui-sideline-delay 0.5)
+  )
+
+(define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
+(define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
+
+(define-key lsp-ui-imenu-mode-map (kbd "<return>") 'lsp-ui-imenu--view)
+(define-key lsp-ui-imenu-mode-map (kbd "RET") 'lsp-ui-imenu--view)
+
+(define-key lsp-ui-flycheck-list-mode-map (kbd "<M-RET>") 'lsp-ui-flycheck-list--visit)
+(define-key lsp-ui-flycheck-list-mode-map (kbd "RET") 'lsp-ui-flycheck-list--view)
+
+(setq which-key-idle-delay 0.5)
+(setq which-key-allow-multiple-replacements t)
+(after! which-key
+  (pushnew!
+   which-key-replacement-alist
+   '(("" . "\\`+?evil[-:]?\\(?:a-\\)?\\(.*\\)") . (nil . "◂\\1"))
+   '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . "◃\\1"))
+   ))
 
 ;; Using Red Hat First logo as a banner! ;-)
 (setq fancy-splash-image "~/Pictures/redhat-banner.png")
@@ -48,12 +106,12 @@
       truncate-string-ellipsis "…")               ; Unicode ellispis are nicer than "...", and also save /precious/ space
 
 ;; Use ido and flx-ido instead of ivy
-(ido-mode 1)
-(ido-everywhere 1)
-(flx-ido-mode 1)
+;; (ido-mode 1)
+;; (ido-everywhere 1)
+;; (flx-ido-mode 1)
 ;; disable ido faces to see flx highlights.
-(setq ido-enable-flex-matching t)
-(setq ido-use-faces nil)
+;; (setq ido-enable-flex-matching t)
+;; (setq ido-use-faces nil)
 
 ;; Prevents some cases of Emacs flickering
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
@@ -61,47 +119,26 @@
 ;; LSP configuration
 (setq lsp-enable-file-watchers nil)
 
- (add-to-list 'exec-path "~/bin")
+(add-to-list 'exec-path "~/bin")
 (add-to-list 'exec-path "~/.local/bin")
 
-(after! ivy
-        ;; I prefer search matching to be ordered; it's more precise
-        (add-to-list 'ivy-re-builders-alist '(counsel-projectile-find-file . ivy--regex-plus)))
+(setq +ivy-buffer-preview t)
 
-(set-company-backend! 'org-mode '(company-yasnippet company-capf company-files company-elisp))
-(setq company-idle-delay 0.25
-      company-minimum-prefix-length 2)
-(add-to-list 'company-backends '(company-capf company-files company-yasnippet))
+(after! ivy
+  ;; I prefer search matching to be ordered; it's more precise
+  (add-to-list 'ivy-re-builders-alist '(counsel-projectile-find-file . ivy--regex-plus)))
+
+(after! company
+  (set-company-backend! 'org-mode '(company-yasnippet company-capf company-files company-elisp company-ispell))
+  (setq company-idle-delay 0.25
+        company-minimum-prefix-length 2)
+  (setq-default history-length 1000)
+  (setq-default prescient-history-length 1000)
+  ;; (add-to-list 'company-backends '(company-capf company-files company-yasnippet))
+  (add-to-list '+lsp-company-backends 'company-files)
+  )
 
 (rainbow-mode 1)
-
-(after! centaur-tabs
-  (setq centaur-tabs-style "bar"
-        centaur-tabs-height 32
-        centaur-tabs-set-icons t
-        centaur-tabs-set-modified-marker t
-        centaur-tabs-show-navigation-buttons t
-        centaur-tabs-set-bar 'over
-        centaur-tabs-modified-marker "⚠"
-        x-underline-at-descent-line t)
-  (centaur-tabs-headline-match)
-  (centaur-tabs-group-by-projectile-project)
-  ;; (setq centaur-tabs-gray-out-icons 'buffer)
-  ;; (centaur-tabs-enable-buffer-reordering)
-  ;; (setq centaur-tabs-adjust-buffer-order t)
-  (centaur-tabs-mode t)
-  (setq uniquify-buffer-name-style 'forward)
-  (setq uniquify-strip-common-suffix t)
-  (setq uniquify-after-kill-buffer-p t)
-  (setq uniquify-separator "/")
-
-  (map! :leader
-        :desc "Toggle tabs on/off"
-        "t c" #'centaur-tabs-local-mode)
-  (evil-define-key 'normal centaur-tabs-mode-map (kbd "g <right>") 'centaur-tabs-forward        ; default Doom binding is 'g t'
-    (kbd "g <left>")  'centaur-tabs-backward       ; default Doom binding is 'g T'
-    (kbd "g <down>")  'centaur-tabs-forward-group
-    (kbd "g <up>")    'centaur-tabs-backward-group))
 
 (map! :leader
       :desc "Dired"
@@ -156,40 +193,66 @@
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. This is the default:
-(if (display-graphic-p)
-    (setq doom-theme 'modus-vivendi)
-  (setq doom-theme 'smyx))
+;; `load-theme' function. This is the default:()
 
-(setq modus-themes-no-mixed-fonts t)
-(setq modus-themes-mode-line '3d)
-(setq modus-themes-org-blocks 'grayscale)
-(setq modus-themes-org-habit 'traffic-light)
-(setq modus-themes-scale-headings t)
-(setq modus-themes-syntax 'yellow-comments-green-strings)
-(setq modus-themes-paren-match 'intense-bold)
-(setq modus-themes-scale-1 1.0
-      modus-themes-scale-2 1.1
-      modus-themes-scale-3 1.25
-      modus-themes-scale-4 1.5
-      modus-themes-scale-5 1.75)
+(use-package modus-themes
+  :init
+  (setq modus-themes-italic-constructs t
+        modus-themes-bold-constructs t
+        modus-themes-region 'no-extend)
+  (setq modus-themes-diffs 'desaturated)
+  (setq modus-themes-no-mixed-fonts nil)
+  (setq modus-themes-mode-line '(borderless accented))
+  (setq modus-themes-org-blocks 'tinted-background)
+  (setq modus-themes-success-deuteranopia t)
+  (setq modus-themes-completions 'opinionated)
+  (setq modus-themes-org-habit 'traffic-light)
+  (setq modus-themes-subtle-line-numbers t)
+  (setq modus-themes-intense-hl-line t)
+  (setq modus-themes-lang-checkers 'intense-foreground)
+  (setq modus-themes-headings
+        '((1 . section)
+          (2 . section-no-bold)
+          (3 . rainbow-line)
+          (t . rainbow-line-no-bold)))
+  (setq modus-themes-scale-headings t)
+  (setq modus-themes-syntax 'yellow-comments-green-strings)
+  (setq modus-themes-paren-match 'intense-bold)
+  (setq modus-themes-variable-pitch-headings t)
+  (setq modus-themes-variable-pitch-ui nil)
+  (setq modus-themes-scale-headings t)
+  (setq modus-themes-scale-1 1.1
+        modus-themes-scale-2 1.15
+        modus-themes-scale-3 1.21
+        modus-themes-scale-4 1.27
+        modus-themes-scale-title 1.33)
+
+  (modus-themes-load-themes)
+  :config
+  (modus-themes-load-vivendi)
+  :bind ("<f5>" . modus-themes-toggle))
 
 (global-anzu-mode +1)
 (global-set-key (kbd "C-;") 'iedit-mode)
-(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 (setq dired-recursive-deletes 'always)
 (setq dired-listing-switches "-alh")
 
 (yas-global-mode 1)
 (setq yas-snippet-dirs '("~/.doom.d/snippets/"))
+(setq yas-triggers-in-field t)
 
-;; Disable fringe mode
-(fringe-mode 0)
+(setq window-divider-default-right-width 1)
+(setq window-divider-default-bottom-width 1)
+(setq window-divider-default-places 'right-only)
+(add-hook 'after-init-hook #'window-divider-mode)
+
 ;; `org-indent-mode' does not play nice with git-gutter, so let's disable it
 (setq git-gutter:disabled-modes '(org-mode))
 (global-git-gutter+-mode 1)
 ;; colorized dired https://github.com/purcell/diredfl
 (diredfl-global-mode t)
+
+(setq-default tab-always-indent 'complete)
 (setq-default indent-tabs-mode nil)
 
 ;; turn on abbrev mode globally
@@ -256,19 +319,24 @@
 (global-visual-fill-column-mode 0)
 
 (global-git-commit-mode t)
-(setq git-commit-summary-max-length 80)
-(setq magit-save-some-buffers nil)
-(setq magit-remote-ref-format 'remote-slash-branch)
-(setq magit-completing-read-function 'ivy-completing-read)
-(setq magit-commit-signoff t)
+(setq git-commit-style-convention-checks
+      '(non-empty-second-line
+        overlong-summary-line))
 
-(global-set-key (kbd "<f3>") 'magit-status)
+(after! magit
+  (setq magit-diff-refine-hunk 'all)
+  (setq magit-save-some-buffers nil)
+  (setq magit-remote-ref-format 'remote-slash-branch)
+  (setq magit-completing-read-function 'ivy-completing-read)
+  (setq magit-commit-signoff t)
 
-(setq magit-repository-directories
-      '(("~/DEV/work/git/tripleo/UPSTREAM" . 2)
-        ("~/DEV/work/git/tripleo/OOOQ/" . 2)
-        ("~/DEV/work/git/laptop_config/" . 2)
-        ("~/DEV/work/git/ansible/" . 2)))
+  (global-set-key (kbd "<f3>") 'magit-status)
+
+  (setq magit-repository-directories
+        '(("~/Projects/Code/tripleo/UPSTREAM" . 2)
+          ("~/Projects/Code/tripleo/OOOQ/" . 2)
+          ("~/Projects/Code/laptop_config/" . 2)
+          ("~/Projects/Code/ansible/" . 2))))
 
 (add-hook 'git-commit-mode-hook (lambda () (toggle-save-place 0))) ; Disable it
 (add-hook 'git-commit-mode-hook 'turn-on-flyspell)
@@ -292,9 +360,12 @@
 
 ;; Enable projectile caching because doom doesn't enable by default
 (setq projectile-enable-caching t)
-(setq projectile-project-search-path "~/DEV/work/git/")
+(setq projectile-project-search-path '("~/Projects/Code"))
 (setq projectile-completion-system 'ivy)
-(setq python-shell-interpreter "/usr/bin/python3.7")
+(setq projectile-mode-line
+      '(:eval (format " Projectile[%s]"
+                      (projectile-project-name))))
+(setq python-shell-interpreter "/usr/local/bin/python3")
 (setq python-shell-interpreter-args "")
 
 (ivy-mode 1)
@@ -328,8 +399,9 @@
 
 ;; (global-aggressive-indent-mode 1)
 ;; (add-to-list 'aggressive-indent-excluded-modes 'python-mode)
-(setq org-journal-file-type "yearly")
+(setq org-journal-file-type 'yearly)
 (setq org-journal-file-format "%Y")
+(setq org-journal-date-format "%A, %m/%d/%Y")
 (setq org-journal-enable-agenda-integration t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -359,6 +431,8 @@
       "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
 
 (display-time-mode 1)
+(setq display-time-format ".::. %a %e %b .::. %H:%M .::.")
+(setq display-time-interval 60)
 (beacon-mode 1)
 
 ;; ;; Window numbering should start from "1" for each new frame.
@@ -367,6 +441,9 @@
 (setq calendar-week-start-day 1) ; Weeks start on monday
 (setq calendar-date-style 'european)
 (setq european-calendar-style t)
+
+(after! org-roam
+  (setq org-roam-directory "~/Dropbox/org/roam"))
 
 (setq calendar-legal-holidays
       '((holiday-fixed 1 1 "New Year's Day")
@@ -405,6 +482,7 @@
                         '(("^ *\\([-]\\) "
                            (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
 
+
 (setq org-todo-keywords
       '((sequence
          "TODO(t!)"  ; A task that needs doing & is ready to do
@@ -430,6 +508,7 @@
         ("PROJ" . +org-todo-project)))
 
 (with-eval-after-load 'org
+  (setq org-clock-sound "~/Downloads/TibetanBowl-1.wav")
   (setq org-todo-keyword-faces
         '(("TODO" . (:foreground "LawnGreen" :weight bold :bold t))
           ("STRT" . (:foreground "DarkOrange" :weight bold :bold t))
@@ -458,7 +537,7 @@
         ("launchpad"   . "https://bugs.launchpad.net/bugs/")
         ("review"      . "https://review.opendev.org/#/c/")
         ("rhbz"        . "https://bugzilla.redhat.com/show_bug.cgi?id=")
-        ("JIRA"        . "https://projects.engineering.redhat.com/browse/")
+        ("JIRA"        . "https://issues.redhat.com/browse/")
         ("github"      . "https://github.com/%s")
         ("youtube"     . "https://youtube.com/watch?v=%s")
         ("google"      . "https://google.com/search?q=")
@@ -546,6 +625,9 @@
         '(("x" "TODO PERSONAL Tasks" entry (file+headline "~/Dropbox/org/personal.org" "PERSONAL TASKS")
            "\n* TODO %\\1 - %\\2%?\n:PROPERTIES:\n:DESCRIPTION: %^{DESCRIPTION}\n:TITLE: %^{TITLE}\n:END:\n:LOGBOOK:\n- Added: %u\n:END:\n"
            :prepend t :kill-buffer t)
+          ("p" "Templates for projects")
+          ("pt" "Project TODO" entry (file+headline "~/Dropbox/org/projects.org" 'projectile-project-name)
+           "* TODO %?\n%i\n%a" :prepend t)
           ("w" "TODO WORK Tasks" entry (file+headline "~/Dropbox/org/work.org" "WORK TASKS")
            "\n* TODO %\\1 - %\\2%?\n:PROPERTIES:\n:DESCRIPTION: %^{DESCRIPTION}\n:TITLE: %^{TITLE}\n:END:\n:LOGBOOK:\n- Added: %u\n:END:\n"
            :prepend t :kill-buffer t)
@@ -572,204 +654,18 @@
                   org-export-with-smart-quotes t
                   org-export-backends '(pdf ascii html latex odt md pandoc)))
 
-;; Loading mutt and muttrc mode because I am still using neomutt for my mails
-(add-to-list 'auto-mode-alist '(".*neomutt.*" . message-mode))
-;; wrap email body
-(add-hook 'mutt-mode-hook 'turn-on-auto-fill)
-(add-hook 'mutt-mode-hook 'turn-on-filladapt-mode)
-(add-hook 'mutt-mode-hook 'flyspell-mode)
-
-(load "~/.doom.d/muttrc-mode.el")
-(setq auto-mode-alist
-      (append '(("muttrc\\'" . muttrc-mode))
-              auto-mode-alist))
-
-;; (setq mail-header-separator "")
-
-;; Shortcut for changing font-size
-(defun zoom-in ()
-  (interactive)
-  (let ((x (+ (face-attribute 'default :height)
-              10)))
-    (set-face-attribute 'default nil :height x)))
-
-(defun zoom-out ()
-  (interactive)
-  (let ((x (- (face-attribute 'default :height)
-              10)))
-    (set-face-attribute 'default nil :height x)))
-
-(define-key global-map (kbd "C-1") 'zoom-in)
-(define-key global-map (kbd "C-0") 'zoom-out)
-
-;; Elfeed configuration
-(elfeed-org)
 (after! elfeed
-  (setq elfeed-search-filter "@4-month-ago +unread")
-  (setq rmh-elfeed-org-files (list "~/.doom.d/private/elfeed.org"))
-  (setq elfeed-db-directory "~/.elfeed/"))
-
-(global-set-key (kbd "<f4>") 'elfeed)
-(add-hook! 'elfeed-search-mode-hook 'elfeed-update)
-
-;; Elfeed mapping
-(map! :map elfeed-search-mode-map
-      :after elfeed-search
-      [remap kill-this-buffer] "q"
-      [remap kill-buffer] "q"
-      :n doom-leader-key nil
-      :n "q" #'elfeed-search-quit-window
-      :n "e" #'elfeed-update
-      :n "r" #'elfeed-search-untag-all-unread
-      :n "u" #'elfeed-search-tag-all-unread
-      :n "s" #'elfeed-search-live-filter
-      :n "RET" #'elfeed-search-show-entry
-      :n "p" #'elfeed-show-pdf
-      :n "+" #'elfeed-search-tag-all
-      :n "-" #'elfeed-search-untag-all
-      :n "S" #'elfeed-search-set-filter
-      :n "b" #'elfeed-search-browse-url
-      :n "y" #'elfeed-search-yank)
-(map! :map elfeed-show-mode-map
-      :after elfeed-show
-      [remap kill-this-buffer] "q"
-      [remap kill-buffer] "q"
-      :n doom-leader-key nil
-      ;; :nm "q" #'+rss/delete-pane
-      :nm "q" #'elfeed-search-quit-window
-      :nm "o" #'ace-link-elfeed
-      :nm "RET" #'org-ref-elfeed-add
-      :nm "n" #'elfeed-show-next
-      :nm "N" #'elfeed-show-prev
-      :nm "p" #'elfeed-show-pdf
-      :nm "+" #'elfeed-show-tag
-      :nm "-" #'elfeed-show-untag
-      :nm "s" #'elfeed-show-new-live-search
-      :nm "y" #'elfeed-show-yank)
-
-(after! elfeed-search
-  (set-evil-initial-state! 'elfeed-search-mode 'normal))
-(after! elfeed-show-mode
-  (set-evil-initial-state! 'elfeed-show-mode   'normal))
-
-(after! evil-snipe
-  (push 'elfeed-show-mode   evil-snipe-disabled-modes)
-  (push 'elfeed-search-mode evil-snipe-disabled-modes))
-
-(after! elfeed
-  (elfeed-org)
-  (use-package! elfeed-link)
-
-  (setq elfeed-search-print-entry-function '+rss/elfeed-search-print-entry
-        elfeed-search-title-min-width 80
-        elfeed-show-entry-switch #'pop-to-buffer
-        elfeed-show-entry-delete #'elfeed-search-quit-window
-        elfeed-show-refresh-function #'+rss/elfeed-show-refresh--better-style
+  (setq elfeed-search-filter "@3-weeks-ago +unread"
+        rmh-elfeed-org-files (list "~/.doom.d/private/elfeed.org")
+        elfeed-db-directory "~/.elfeed/"
+        elfeed-search-title-max-width 100
         shr-max-image-proportion 0.6)
-
-  (add-hook! 'elfeed-show-mode-hook (hide-mode-line-mode 1))
-  (add-hook! 'elfeed-search-update-hook #'hide-mode-line-mode)
-
-  (defface elfeed-show-title-face '((t (:weight ultrabold :slant italic :height 1.5)))
-    "title face in elfeed show buffer"
-    :group 'elfeed)
-  (defface elfeed-show-author-face `((t (:weight light)))
-    "title face in elfeed show buffer"
-    :group 'elfeed)
-  (set-face-attribute 'elfeed-search-title-face nil
-                      :foreground 'nil
-                      :weight 'light)
-
-  (defadvice! +rss-elfeed-wrap-h-nicer ()
-    "Enhances an elfeed entry's readability by wrapping it to a width of
-`fill-column' and centering it with `visual-fill-column-mode'."
-    :override #'+rss-elfeed-wrap-h
-    (let ((inhibit-read-only t)
-          (inhibit-modification-hooks t))
-      (setq-local truncate-lines t)
-      (setq-local shr-width 120)
-      (setq-local line-spacing 0.2)
-      (setq-local visual-fill-column-center-text t)
-      (visual-fill-column-mode)
-      ;; (setq-local shr-current-font '(:family "Merriweather" :height 1.2))
-      (set-buffer-modified-p nil)))
-
-  (defun +rss/elfeed-search-print-entry (entry)
-    "Print ENTRY to the buffer."
-    (let* ((elfeed-goodies/tag-column-width 40)
-           (elfeed-goodies/feed-source-column-width 30)
-           (title (or (elfeed-meta entry :title) (elfeed-entry-title entry) ""))
-           (title-faces (elfeed-search--faces (elfeed-entry-tags entry)))
-           (feed (elfeed-entry-feed entry))
-           (feed-title
-            (when feed
-              (or (elfeed-meta feed :title) (elfeed-feed-title feed))))
-           (tags (mapcar #'symbol-name (elfeed-entry-tags entry)))
-           (tags-str (concat (mapconcat 'identity tags ",")))
-           (title-width (- (window-width) elfeed-goodies/feed-source-column-width
-                           elfeed-goodies/tag-column-width 4))
-
-           (tag-column (elfeed-format-column
-                        tags-str (elfeed-clamp (length tags-str)
-                                               elfeed-goodies/tag-column-width
-                                               elfeed-goodies/tag-column-width)
-                        :left))
-           (feed-column (elfeed-format-column
-                         feed-title (elfeed-clamp elfeed-goodies/feed-source-column-width
-                                                  elfeed-goodies/feed-source-column-width
-                                                  elfeed-goodies/feed-source-column-width)
-                         :left)))
-
-      (insert (propertize feed-column 'face 'elfeed-search-feed-face) " ")
-      (insert (propertize tag-column 'face 'elfeed-search-tag-face) " ")
-      (insert (propertize title 'face title-faces 'kbd-help title))
-      (setq-local line-spacing 0.2)))
-
-  (defun +rss/elfeed-show-refresh--better-style ()
-    "Update the buffer to match the selected entry, using a mail-style."
-    (interactive)
-    (let* ((inhibit-read-only t)
-           (title (elfeed-entry-title elfeed-show-entry))
-           (date (seconds-to-time (elfeed-entry-date elfeed-show-entry)))
-           (author (elfeed-meta elfeed-show-entry :author))
-           (link (elfeed-entry-link elfeed-show-entry))
-           (tags (elfeed-entry-tags elfeed-show-entry))
-           (tagsstr (mapconcat #'symbol-name tags ", "))
-           (nicedate (format-time-string "%a, %e %b %Y %T %Z" date))
-           (content (elfeed-deref (elfeed-entry-content elfeed-show-entry)))
-           (type (elfeed-entry-content-type elfeed-show-entry))
-           (feed (elfeed-entry-feed elfeed-show-entry))
-           (feed-title (elfeed-feed-title feed))
-           (base (and feed (elfeed-compute-base (elfeed-feed-url feed)))))
-      (erase-buffer)
-      (insert "\n")
-      (insert (format "%s\n\n" (propertize title 'face 'elfeed-show-title-face)))
-      (insert (format "%s\t" (propertize feed-title 'face 'elfeed-search-feed-face)))
-      (when (and author elfeed-show-entry-author)
-        (insert (format "%s\n" (propertize author 'face 'elfeed-show-author-face))))
-      (insert (format "%s\n\n" (propertize nicedate 'face 'elfeed-log-date-face)))
-      (when tags
-        (insert (format "%s\n"
-                        (propertize tagsstr 'face 'elfeed-search-tag-face))))
-      ;; (insert (propertize "Link: " 'face 'message-header-name))
-      ;; (elfeed-insert-link link link)
-      ;; (insert "\n")
-      (cl-loop for enclosure in (elfeed-entry-enclosures elfeed-show-entry)
-               do (insert (propertize "Enclosure: " 'face 'message-header-name))
-               do (elfeed-insert-link (car enclosure))
-               do (insert "\n"))
-      (insert "\n")
-      (if content
-          (if (eq type 'html)
-              (elfeed-insert-html content base)
-            (insert content))
-        (insert (propertize "(empty)\n" 'face 'italic)))
-      (goto-char (point-min))))
+  ;; (add-hook! 'elfeed-search-mode-hook 'elfeed-update)
   )
 
 ;; calibredb configuration
 (after! calibredb
-  (setq calibredb-root-dir "/run/media/gchamoul/SDCARD32/Calibre"
+  (setq calibredb-root-dir "~/SDCARD32/Calibre"
         calibredb-db-dir (expand-file-name "metadata.db" calibredb-root-dir))
   (map! :map calibredb-show-mode-map
         :ne "?" #'calibredb-entry-dispatch
@@ -845,166 +741,15 @@
 (add-hook 'nov-mode-hook 'visual-line-mode)
 (add-hook 'nov-mode-hook 'visual-fill-column-mode)
 
-;; (mu4e-alert-set-default-style 'libnotify)
-;; (mu4e-alert-enable-notifications)
-;; (setq mu4e-alert-icon "/usr/share/icons/Papirus/64x64/apps/emacs.svg")
-
-;; (setq mu4e-alert-interesting-mail-query
-;;       (concat
-;;        "flag:unread"
-;;        " AND NOT flag:trashed"
-;;        " AND maildir:/Inbox"))
-
-;; (setq mu4e-headers-fields
-;;       '((:human-date    .  12)
-;;         (:flags         .   6)
-;;         (:from          .  40)
-;;         (:subject       . nil)))
-
-;; (setq  mu4e-maildir-shortcuts
-;;        '(("/INBOX"            . ?i)
-;;          ("/ML.announce-list" . ?a)
-;;          ("/ML.cdg-list"      . ?c)
-;;          ("/ML.France-list"   . ?f)
-;;          ("/Perso"            . ?p)
-;;          ("/ML.memo-list"     . ?m)
-;;          ("/ML.OST-UPSTREAM-TRIPLEO-DEV"     . ?t)))
-
-;; ;; Bookmarks
-;; (setq mu4e-bookmarks
-;;       `(("maildir:/INBOX" "Inbox" ?i)
-;;         ("list:openstack-discuss.lists.openstack.org and subject:tripleo" "Tripleo DEV" ?o)
-;;         ("list:openstack-discuss.lists.openstack.org and not subject:tripleo" "OpenStack DEV" ?u)
-;;         ("maildir:/ML.Bugzilla" "Bugzilla"      ?b)
-;;         ("maildir:/ML.Code-Reviews" "Code Reviews"      ?x)
-;;         ("maildir:/ML.OST-RH-OPENSTACK-DEVEL" "RHOS-dev"       ?v)
-;;         ("maildir:/ML.OST-RH-OPENSTACK-PGM" "RHOS-pgm"         ?g)
-;;         ("maildir:/ML.OST-RHOS-TECH" "RHOS-tech"         ?c)
-;;         ("maildir:/ML.OST-RH-DFG-DF" "DGF:DF"         ?q)
-;;         ("maildir:/ML.memo-list" "memo-list"         ?m)
-;;         ("maildir:/ML.Neurodiversity" "Neurodiversity list"         ?k)
-;;         ("maildir:/ML.RH-Tech-list" "tech-list"         ?h)
-;;         ("maildir:/ML.Remotees-list" "remotees-list"         ?e)
-;;         ("maildir:/ML.announce-list" "announce-list"         ?j)
-;;         ("maildir:/ML.GITHUB_WATCHING" "GitHub Watching"         ?d)
-;;         ("maildir:/ML.Friday-list" "friday-list"         ?f)
-;;         ("maildir:/ML.cdg-list" "cdg-list"         ?y)
-;;         ("maildir:/ML.france-list" "france-list"         ?l)
-;;         ("maildir:/ML.french-associates" "french-associates"         ?n)
-;;         ("flag:unread AND NOT flag:trashed" "Unread messages" ?u)
-;;         ("date:today..now" "Today's messages" ?t)
-;;         ("date:7d..now" "Last 7 days" ?w)
-;;         ("mime:image/*" "Messages with images" ?p)
-;;         (,(mapconcat 'identity
-;;                      (mapcar
-;;                       (lambda (maildir)
-;;                         (concat "maildir:" (car maildir)))
-;;                       mu4e-maildir-shortcuts) " OR ")
-;;          "All inboxes" ?a)))
-
-;; (after! mu4e
-;;   ;; use mu4e for e-mail in emacs
-;;   (setq mu4e-root-maildir (expand-file-name "~/Mail/redhat-gmail"))
-;;   (setq mu4e-compose-reply-to-address "gchamoul@redhat.com")
-;;   (setq mail-user-agent 'mu4e-user-agent)
-;;   (setq mu4e-trash-folder "/Trash")
-;;   (setq mu4e-refile-folder "/Archive")
-;;   (setq mu4e-sent-folder "/Sent")
-;;   (setq mu4e-drafts-folder "/Drafts")
-;;   (setq mu4e-compose-signature-auto-include nil)
-;;   (setq mu4e-view-show-images t)
-;;   (setq mu4e-view-image-max-width 800)
-;;   (setq mu4e-view-use-gnus nil)
-;;   (setq mu4e-view-show-addresses t)
-;;   (setq sendmail-program "/usr/bin/msmtp"
-;;         send-mail-function #'smtpmail-send-it
-;;         message-sendmail-f-is-evil t
-;;         message-sendmail-extra-arguments '("--read-envelope-from")
-;;         message-auto-save-directory "~/Mail/redhat-gmail/Drafts"
-;;         message-send-mail-function #'message-send-mail-with-sendmail
-;;         mu4e-confirm-quit nil
-;;         mu4e-view-fields '(:from :to :cc :bcc :subject :flags :date :maildir :mailing-list :tags :attachments :signature :decryption)
-;;         mu4e-compose-format-flowed nil
-;;         ;; fill-flowed-encode-column 80
-;;         mu4e-headers-date-format "%+4Y-%m-%d"
-;;         ;; mm-fill-flowed t
-;;         message-kill-buffer-on-exit t
-;;         mu4e-context-policy 'pick-first
-;;         mu4e-confirm-quit nil
-;;         mu4e-sent-messages-behavior 'sent
-;;         mu4e-change-filenames-when-moving t
-;;         mu4e-use-fancy-chars nil
-;;         mu4e-split-view 'horizontal
-;;         mu4e-index-cleanup nil      ;; don't do a full cleanup check
-;;         mu4e-index-lazy-check t    ;; don't consider up-to-date dirs
-;;         mu4e-headers-auto-update t
-;;         mu4e-headers-include-related t
-;;         mu4e-compose-dont-reply-to-self t
-;;         mu4e-attachment-dir "~/Downloads"
-;;         mu4e-view-prefer-html nil
-;;         mu4e-html2text-command "w3m -dump -T text/html"
-;;         mu4e-completing-read-function 'ivy-completing-read
-;;         ;; every new email composition gets its own frame!
-;;         mu4e-compose-in-new-frame t
-;;         mu4e-update-interval (* 2 60)
-;;         mu4e-index-update-in-background t
-;;         message-citation-line-format "On %a %d %b %Y at %R, %f wrote:\n"
-;;         ;; choose to use the formatted string
-;;         message-citation-line-function 'message-insert-formatted-citation-line
-;;         )
-
-;;   (add-hook 'mu4e-compose-mode-hook 'flyspell-mode)
-;;   (add-hook 'mu4e-compose-mode-hook 'orgtbl-mode)
-;;   (add-hook 'mu4e-view-mode-hook #'visual-line-mode)
-;;   (global-set-key (kbd "<f5>") 'mu4e-update-index)
-
-;;   ;; this setting allows to re-sync and re-index mail
-;;   ;; by pressing U
-;;   (setq mu4e-get-mail-command  "mbsync -a")
-
-;;   ;; Confirmation before sending
-;;   (add-hook 'message-send-hook
-;;             (lambda ()
-;;               (unless (yes-or-no-p "Sure you want to send this?")
-;;                 (signal 'quit nil))))
-
-;;   (add-hook 'mu4e-compose-mode-hook
-;;             (defun my-add-bcc ()
-;;               "Add a Bcc: header."
-;;               (save-excursion (message-add-header "Bcc: gchamoul@redhat.com\n"))));
-;;   )
-
-;; (setq mu4e-headers-thread-child-prefix '("├>" . "├▶ "))
-;; (setq mu4e-headers-thread-last-child-prefix '("└>" . "└▶ "))
-;; (setq mu4e-headers-thread-connection-prefix '("│" . "│ "))
-;; (setq mu4e-headers-thread-orphan-prefix '("┬>" . "┬▶ "))
-;; (setq mu4e-headers-thread-single-orphan-prefix '("─>" . "─▶ "))
-
-;; Use imagemagick, if available.
-;; (when (fboundp 'imagemagick-register-types)
-;;   (imagemagick-register-types))
-;; (after! org-msg
-;;   (setq org-msg-options "html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil email:nil \\n:t"
-;;         org-msg-startup "hidestars indent inlineimages"
-;;         org-msg-greeting-fmt "\nHi *%s*,\n\n"
-;;         org-msg-greeting-name-limit 3
-;;         org-msg-default-alternatives '(text html)
-;;         org-msg-convert-citation t
-;;         org-msg-signature "
-
-;;         Regards,
-
-;;         #+begin_signature
-;;         -- *Jeremy* \\\\
-;;         /One Emacs to rule them all/
-;;         #+end_signature")
-;;   (org-msg-mode))
-
-(after! circe
-  (set-irc-server! "chat.freenode.net"
-                   `(:tls t
-                     :port 6697
-                     :nick "gchamoul"
-                     :sasl-username "gchamoul"
-                     :sasl-password "lazypw"
-                     :channels ("#emacs"))))
+(after! org-tree-slide
+  (global-set-key (kbd "<f8>") 'org-tree-slide-mode)
+  (global-set-key (kbd "S-<f8>") 'org-tree-slide-skip-done-toggle)
+  (define-key org-tree-slide-mode-map (kbd "<f9>")
+    'org-tree-slide-move-previous-tree)
+  (define-key org-tree-slide-mode-map (kbd "<f10>")
+    'org-tree-slide-move-next-tree)
+  (define-key org-tree-slide-mode-map (kbd "<f11>")
+    'org-tree-slide-content)
+  (setq org-tree-slide-skip-outline-level 4)
+  (org-tree-slide-narrowing-control-profile)
+  (setq org-tree-slide-skip-done nil))
