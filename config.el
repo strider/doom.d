@@ -136,7 +136,7 @@
    ))
 
 ;; Using Red Hat First logo as a banner! ;-)
-(setq fancy-splash-image "~/Pictures/red_hat_logo.png")
+(setq fancy-splash-image (expand-file-name "red_hat_logo.png" doom-private-dir))
 ;; ;; Don't need the menu; I know them all by heart
 ;; (remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
 
@@ -284,15 +284,10 @@
   (setq modus-themes-lang-checkers '(background text-also straight-underline))
   (setq modus-themes-hl-line '(intense accented))
   (setq modus-themes-headings
-        '((1 . (background overline variable-pitch))
-          (2 . (background overline rainbow))
-          (3 . (overline))
+        '((1 . (background overline variable-pitch 1.5))
+          (2 . (background overline rainbow 1.3))
+          (3 . (overline 1.1))
           (t . (monochrome))))
-  ;; (setq modus-themes-headings
-  ;;       '((1 . (background overline variable-pitch 1.5))
-  ;;         (2 . (background overline rainbow 1.3))
-  ;;         (3 . (overline 1.1))
-  ;;         (t . (monochrome))))
   ;; (setq modus-themes-headings
   ;;       '((1 . section 1.5)
   ;;         (2 . section-no-bold)
