@@ -12,6 +12,14 @@
 (package! org-bullets
   :recipe (:host github :repo "sabof/org-bullets"))
 
+(package! keychain-environment
+  :recipe (:host github :repo "tarsius/keychain-environment"))
+
+(package! expand-region)
+
+(package! typoel
+  :recipe (:host github :repo "jorgenschaefer/typoel"))
+
 (package! beacon
   :recipe (:host github :repo "Malabarba/beacon"))
 
@@ -21,16 +29,21 @@
   :recipe (:host github :repo "mkcms/ivy-yasnippet"))
 
 (package! smyx-theme)
+(package! grandshell-theme)
 (package! auto-yasnippet)
+(package! filladapt)
 (package! rpm-spec-mode
   :recipe (:host github :repo "stigbjorlykke/rpm-spec-mode"))
 
 (package! iedit
   :recipe (:host github :repo "victorhge/iedit"))
 
+;; (package! mu4e-views
+;;   :recipe (:host github :repo "lordpretzel/mu4e-views"))
+
 (package! peep-dired)
 (package! dmenu)
-(package! ivy-posframe)
+;;(package! ivy-posframe)
 (package! rainbow-mode)
 (package! async)
 (package! git-gutter+)
@@ -40,9 +53,21 @@
 (package! jinja2-mode)
 ;; (package! flx-ido)
 (package! lsp-ui)
-(package! calibredb)
-(package! nov)
 (package! fzf)
+(package! muttrc-mode
+  :recipe (:host github :repo "neomutt/muttrc-mode-el"))
+
+(package! ob-mermaid
+  :recipe (:host github :repo "arnm/ob-mermaid"))
+
+(package! sunrise-commander
+  :recipe (:host github :repo "sunrise-commander/sunrise-commander"))
+
+(package! focus
+  :recipe (:host github :repo "larstvei/Focus"))
+
+(package! poet
+  :recipe (:host github :repo "kunalb/poet"))
 
 (package! modus-theme
   :recipe (:host gitlab :repo "protesilaos/modus-themes"))
@@ -50,6 +75,29 @@
 (package! emacs-doom-themes
   :recipe (:host github :repo "hlissner/emacs-doom-themes"))
 
+(package! apheleia
+  :recipe (:host github :repo "raxod502/apheleia"))
+
+(package! mu4e-alert :disable t)
+(package! alert
+  :recipe (:host github :repo "jwiegley/alert"))
+
+(package! osx-browse
+  :recipe (:host github :repo "rolandwalker/osx-browse"))
+
+(package! go-dlv
+  :recipe (:host github :repo "benma/go-dlv.el"))
+
+(package! vagrant
+  :recipe (:host github :repo "ottbot/vagrant.el"))
+
+(package! vagrant-tramp
+  :recipe (:host github :repo "dougm/vagrant-tramp"))
+
+(package! org-special-block-extras
+  :recipe (:host github :repo "alhassy/org-special-block-extras"))
+;; (package! erc-hl-nicks
+;;   :recipe (:host github :repo "leathekd/erc-hl-nicks"))
 ;; (package! org-msg :disable t)
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:

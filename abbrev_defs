@@ -1,6 +1,7 @@
 ;;-*-coding: utf-8;-*-
 (define-abbrev-table 'global-abbrev-table
   '(
+    ("..." "…" nil :count 0)
     ("abbout" "about" nil :count 0)
     ("abotu" "about" nil :count 0)
     ("abouta" "about a" nil :count 0)
@@ -85,6 +86,7 @@
     ("arond" "around" nil :count 0)
     ("artical" "article" nil :count 0)
     ("articel" "article" nil :count 0)
+    ("asap" "as soon as possible" nil :count 2)
     ("asdvertising" "advertising" nil :count 0)
     ("assistent" "assistant" nil :count 0)
     ("asthe" "as the" nil :count 0)
@@ -172,7 +174,7 @@
     ("claerly" "clearly" nil :count 0)
     ("cliant" "client" nil :count 0)
     ("cliche" "cliche" nil :count 0)
-    ("cna" "can" nil :count 0)
+    ("cna" "can" nil :count 1)
     ("colection" "collection" nil :count 0)
     ("comanies" "companies" nil :count 0)
     ("comany" "company" nil :count 0)
@@ -584,8 +586,8 @@
     ("onthe" "on the" nil :count 0)
     ("onyl" "only" nil :count 0)
     ("opcode" "op-code" nil :count 0)
-    ("operaror" "operator" nil :count 0)
     ("openshit" "OpenShift" nil :count 0)
+    ("operaror" "operator" nil :count 0)
     ("oppasite" "opposite" nil :count 0)
     ("opperation" "operation" nil :count 0)
     ("oppertunity" "opportunity" nil :count 0)
@@ -930,3 +932,4 @@
     ("yuo" "you" nil :count 0)
     ("yuor" "your" nil :count 4)
    ))
+

@@ -1,5 +1,4 @@
 ;;; init.el -*- lexical-binding: t; -*-
-
 ;; This file controls what Doom modules are enabled and what order they load
 ;; in. Remember to run 'doom sync' after modifying it!
 
@@ -20,10 +19,12 @@
        ;;layout            ; auie,ctsrnm is the superior home row
 
        :completion
-       (company +auto +childframe +tng)          ; the ultimate code completion backend
+       ;; (company +auto +childframe +tng)          ; the ultimate code completion backend
+       company
        ;;helm              ; the *other* search engine for love and life
        ;; ido               ; the other *other* search engine...
-       (ivy +fuzzy +prescient +icons) ; a search engine for love and life
+       ;; (ivy +fuzzy +prescient +icons) ; a search engine for love and life
+       (vertico +icons)
 
        :ui
        ;; deft              ; notational velocity for Emacs
@@ -35,15 +36,15 @@
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
        hydra
        ;; indent-guides     ; highlighted indent columns
-       ligatures         ; ligatures and symbols to make your code pretty again
+       ligatures        ; ligatures and symbols to make your code pretty again
        ;;minimap           ; show a map of the code on the side
 
        ;; (modeline +light)          ; snazzy, Atom-inspired modeline, plus API
-       modeline
+       (modeline)
        ;;nav-flash         ; blink cursor line after big motions
        ;;neotree           ; a project drawer, like NERDTree for vim
        ophints           ; highlight the region an operation acts on
-       (popup +defaults)   ; tame sudden yet inevitable temporary windows
+       (popup +all +defaults)   ; tame sudden yet inevitable temporary windows
        ;; tabs              ; a tab bar for Emacs
        treemacs          ; a project drawer, like neotree but cooler
        unicode           ; extended unicode support for various languages
@@ -87,6 +88,7 @@
 
        :tools
        ansible
+       ;;biblio            ; Writes a PhD for you (citation needed)
        ;;debugger          ; FIXME stepping through code, to help you add bugs
        direnv
        (docker +lsp)
@@ -97,15 +99,15 @@
        lookup              ; navigate your code and its documentation
        (lsp +peek)
        (magit +forge)            ; a git porcelain for Emacs
-       ;;make              ; run make tasks from Emacs
+       make              ; run make tasks from Emacs
        pass              ; password manager for nerds
        pdf               ; pdf enhancements
        ;;prodigy           ; FIXME managing external services & code builders
        ;;rgb               ; creating color strings
        ;;taskrunner        ; taskrunner for all your projects
        ;;terraform         ; infrastructure as code
-       ;;tmux              ; an API for interacting with tmux
-       ;;upload            ; map local to remote projects via ssh/ftp
+       ;; tmux              ; an API for interacting with tmux
+       ;; upload            ; map local to remote projects via ssh/ftp
 
        :os
        (:if IS-MAC macos)  ; improve compatibility with macOS
@@ -130,7 +132,7 @@
        ;;fsharp            ; ML stands for Microsoft's Language
        ;;fstar             ; (dependent) types and (monadic) effects and Z3
        ;;gdscript          ; the language you waited for
-       ;;(go +lsp)         ; the hipster dialect
+       (go +lsp)           ; the hipster dialect
        ;;(haskell +dante)  ; a language that's lazier than I am
        ;;hy                ; readability of scheme w/ speed of python
        ;;idris             ; a language you can depend on
@@ -144,7 +146,7 @@
        ;;factor
        ;;ledger            ; an accounting system in Emacs
        ;;lua               ; one-based indices? one-based indices
-       markdown          ; writing docs for people to ignore
+       (markdown +grip)          ; writing docs for people to ignore
        ;;nim               ; python + lisp at the speed of c
        ;;nix               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective camel
@@ -172,14 +174,15 @@
        (yaml +lsp)              ; JSON, but readable
 
        :email
-       ;; (mu4e +gmail)
-       ;; notmuch
+       ;; (mu4e +gmail +org)
+       ;; (notmuch +org)
        ;;(wanderlust +gmail)
 
        :app
        calendar
-       irc               ; how neckbeards socialize
-       ;; everywhere
+       ;;emms
+       everywhere        ; *leave* Emacs!? You must be joking
+       ;;irc               ; how neckbeards socialize
        (rss +org)        ; emacs as an RSS reader
        ;;twitter           ; twitter client https://twitter.com/vnought
 

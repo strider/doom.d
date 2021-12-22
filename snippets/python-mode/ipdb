@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: GC ipdb set_trace()
+# key: <ipdb
+# --
+import ipdb; ipdb.set_trace()

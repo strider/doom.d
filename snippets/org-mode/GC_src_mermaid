@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: GC src mermaid
+# key: <mermaid
+# --
+#+BEGIN_SRC mermaid :file ./$1.png
+$0
+#+END_SRC

@@ -8,6 +8,9 @@
 (setq user-full-name "Gaël Chamoulaud"
       user-mail-address "gchamoul@redhat.com")
 
+(doom-load-envvars-file "~/.doom.d/myenv")
+
+(keychain-refresh-environment)
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
 ;;
@@ -18,14 +21,57 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-(setq doom-font (font-spec :family "JetBrains Mono" :size 12.0 :weight 'normal)
-      doom-variable-pitch-font (font-spec :family "JetBrains Mono" :size 12.0 :weight 'normal))
+;; (setq doom-font (font-spec :family "Iosevka Comfy" :size 12.5 :weight 'extrabold :height 135))
+;; doom-variable-pitch-font (font-spec :family "Iosevka Comfy" :size 12.5 :weight 'normal))
+;;
+(setq doom-font (font-spec :family "Agave" :size 18 :weight 'normal)
+      doom-variable-pitch-font (font-spec :family "Red Hat Text" :weight 'medium))
+;; doom-variable-pitch-font (font-spec :family "Agave" :size 14 :weight 'normal))
 
 (setq doom-fallback-buffer-name "► Doom"
       +doom-dashboard-name "► Doom")
 
-(menu-bar-mode t)
+(map! :nv "C-=" #'er/contract-region
+      :nv "C-+" #'er/expand-region)
 
+(map! :map +doom-dashboard-mode-map
+      :ne "f" #'find-file
+      :ne "r" #'consult-recent-file
+      :ne "p" #'doom/open-private-config
+      :ne "c" (cmd! (find-file (expand-file-name "config.el" doom-private-dir)))
+      :ne "." (cmd! (doom-project-find-file "~/.config/")) ; . for dotfiles
+      :ne "b" #'+vertico/switch-workspace-buffer
+      :ne "B" #'consult-buffer
+      :ne "q" #'save-buffers-kill-terminal)
+
+(map! :leader
+      :desc "Editing my work dot org file"
+      :ne "e w" (cmd! (find-file "~/Dropbox/org/work.org"))
+      :desc "Editing my personal.org file"
+      :ne "e p" (cmd! (find-file "~/Dropbox/org/personal.org"))
+      :desc "Editing my technical_notes.org file"
+      :ne "e t" (cmd! (find-file "~/Dropbox/org/technical_notes.org"))
+      :desc "Editing my .yabairc file"
+      :ne "e y" (cmd! (find-file "~/.yabairc"))
+      :desc "Editing my .skhdrc file"
+      :ne "e s" (cmd! (find-file "~/.skhdrc"))
+      :desc "Editing my neomutt.rc file"
+      :ne "e n" (cmd! (find-file "~/.muttrc"))
+      :desc "Search for a matching line"
+      :ne "e l" #'consult-line
+      :desc "Jump to flycheck error"
+      :ne "e f" #'consult-flycheck)
+
+;; Store my bookmarks in my private directory
+(setq bookmark-default-file (expand-file-name "private/bookmarks" doom-private-dir))
+
+(setq evil-mode-line-format nil
+      evil-insert-state-cursor '(bar "Gold1")
+      evil-visual-state-cursor '(box "#F86155")
+      evil-normal-state-cursor '(box "DeepSkyBlue3"))
+
+(menu-bar-mode t)
+(solaire-global-mode t)
 (setq all-the-icons-scale-factor 1.1)
 
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
@@ -35,24 +81,32 @@
   (doom-modeline-def-modeline 'main
     '(bar matches buffer-info remote-host buffer-position word-count parrot selection-info)
     '(misc-info debug lsp minor-modes checker input-method indent-info
-                buffer-encoding major-mode process checker vcs "  ")) ; <-- added padding here
+                buffer-encoding major-mode process checker vcs "    ")) ; <-- added padding here
   (setq doom-modeline-height 25
         doom-modeline-bar-width 3
         doom-modeline-major-mode-color-icon t
         doom-modeline-major-mode-icon t
+        doom-modeline-lsp t
         doom-modeline-buffer-file-name-style 'truncate-all
         doom-modeline-display-default-persp-name t
         doom-modeline-persp-name t
         doom-modeline-gnus nil
+        doom-modeline-mu4e nil
         doom-modeline-minor-modes nil
-        doom-modeline-modal-icon nil)
+        doom-modeline-window-width-limit fill-column
+        doom-modeline-modal-icon t)
   )
 
 (lsp-ui-mode)
+(lsp-ui-doc-frame-mode)
 (after! lsp-ui
   (setq lsp-ui-doc-enable nil
         lsp-ui-doc-header t
+        lsp-ui-doc-position 'top
+        lsp-ui-doc-max-width 150
+        lsp-ui-doc-max-height 50
         lsp-ui-doc-include-signature t
+        lsp-ui-doc-use-webkit t
         lsp-ui-peek-enable t
         lsp-ui-peek-show-directory t
         lsp-ui-imenu-enable t
@@ -82,7 +136,7 @@
    ))
 
 ;; Using Red Hat First logo as a banner! ;-)
-(setq fancy-splash-image "~/Pictures/redhat-banner.png")
+(setq fancy-splash-image "~/Pictures/red_hat_logo.png")
 ;; ;; Don't need the menu; I know them all by heart
 ;; (remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
 
@@ -113,6 +167,41 @@
 ;; (setq ido-enable-flex-matching t)
 ;; (setq ido-use-faces nil)
 
+(after! marginalia
+  (setq marginalia-censor-variables nil)
+
+  (defadvice! +marginalia--anotate-local-file-colorful (cand)
+    "Just a more colourful version of `marginalia--anotate-local-file'."
+    :override #'marginalia--annotate-local-file
+    (when-let (attrs (file-attributes (substitute-in-file-name
+                                       (marginalia--full-candidate cand))
+                                      'integer))
+      (marginalia--fields
+       ((marginalia--file-owner attrs)
+        :width 12 :face 'marginalia-file-owner)
+       ((marginalia--file-modes attrs))
+       ((+marginalia-file-size-colorful (file-attribute-size attrs))
+        :width 7)
+       ((+marginalia--time-colorful (file-attribute-modification-time attrs))
+        :width 12))))
+
+  (defun +marginalia--time-colorful (time)
+    (let* ((seconds (float-time (time-subtract (current-time) time)))
+           (color (doom-blend
+                   (face-attribute 'marginalia-date :foreground nil t)
+                   (face-attribute 'marginalia-documentation :foreground nil t)
+                   (/ 1.0 (log (+ 3 (/ (+ 1 seconds) 345600.0)))))))
+      ;; 1 - log(3 + 1/(days + 1)) % grey
+      (propertize (marginalia--time time) 'face (list :foreground color))))
+
+  (defun +marginalia-file-size-colorful (size)
+    (let* ((size-index (/ (log10 (+ 1 size)) 7.0))
+           (color (if (< size-index 10000000) ; 10m
+                      (doom-blend 'orange 'green size-index)
+                    (doom-blend 'red 'orange (- size-index 1)))))
+      (propertize (file-size-human-readable size) 'face (list :foreground color)))))
+
+
 ;; Prevents some cases of Emacs flickering
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
@@ -122,11 +211,11 @@
 (add-to-list 'exec-path "~/bin")
 (add-to-list 'exec-path "~/.local/bin")
 
-(setq +ivy-buffer-preview t)
+;; (setq +ivy-buffer-preview t)
 
-(after! ivy
-  ;; I prefer search matching to be ordered; it's more precise
-  (add-to-list 'ivy-re-builders-alist '(counsel-projectile-find-file . ivy--regex-plus)))
+;; (after! ivy
+;;   ;; I prefer search matching to be ordered; it's more precise
+;;   (add-to-list 'ivy-re-builders-alist '(counsel-projectile-find-file . ivy--regex-plus)))
 
 (after! company
   (set-company-backend! 'org-mode '(company-yasnippet company-capf company-files company-elisp company-ispell))
@@ -135,7 +224,7 @@
   (setq-default history-length 1000)
   (setq-default prescient-history-length 1000)
   ;; (add-to-list 'company-backends '(company-capf company-files company-yasnippet))
-  (add-to-list '+lsp-company-backends 'company-files)
+  ;; (add-to-list '+lsp-company-backends 'company-files)
   )
 
 (rainbow-mode 1)
@@ -173,59 +262,47 @@
                               ("mkv" . "mpv")
                               ("mp4" . "mpv")))
 
-(setq ivy-posframe-display-functions-alist
-      '((swiper                     . ivy-posframe-display-at-point)
-        (complete-symbol            . ivy-posframe-display-at-point)
-        (counsel-M-x                . ivy-display-function-fallback)
-        (counsel-esh-history        . ivy-posframe-display-at-window-center)
-        (counsel-describe-function  . ivy-display-function-fallback)
-        (counsel-describe-variable  . ivy-display-function-fallback)
-        (counsel-find-file          . ivy-display-function-fallback)
-        (counsel-recentf            . ivy-display-function-fallback)
-        (counsel-register           . ivy-posframe-display-at-frame-bottom-window-center)
-        (dmenu                      . ivy-posframe-display-at-frame-top-center)
-        (nil                        . ivy-posframe-display))
-      ivy-posframe-height-alist
-      '((swiper . 20)
-        (dmenu . 20)
-        (t . 10)))
-(ivy-posframe-mode 1) ; 1 enables posframe-mode, 0 disables it.
-
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:()
 
-(use-package modus-themes
+(use-package! modus-themes
   :init
   (setq modus-themes-italic-constructs t
         modus-themes-bold-constructs t
         modus-themes-region 'no-extend)
   (setq modus-themes-diffs 'desaturated)
-  (setq modus-themes-no-mixed-fonts nil)
-  (setq modus-themes-mode-line '(borderless accented))
-  (setq modus-themes-org-blocks 'tinted-background)
-  (setq modus-themes-success-deuteranopia t)
+  (setq modus-themes-mixed-fonts nil)
+  (setq modus-themes-mode-line '(accented borderless))
+  (setq modus-themes-org-blocks 'gray-background)
+  (setq modus-themes-deuteranopia t)
   (setq modus-themes-completions 'opinionated)
   (setq modus-themes-org-habit 'traffic-light)
+  ;; (setq modus-themes-intense-hl-line t)
   (setq modus-themes-subtle-line-numbers t)
-  (setq modus-themes-intense-hl-line t)
-  (setq modus-themes-lang-checkers 'intense-foreground)
+  (setq modus-themes-intense-markup t)
+  (setq modus-themes-lang-checkers '(background text-also straight-underline))
+  (setq modus-themes-hl-line '(intense accented))
   (setq modus-themes-headings
-        '((1 . section)
-          (2 . section-no-bold)
-          (3 . rainbow-line)
-          (t . rainbow-line-no-bold)))
+        '((1 . (background overline variable-pitch))
+          (2 . (background overline rainbow))
+          (3 . (overline))
+          (t . (monochrome))))
+  ;; (setq modus-themes-headings
+  ;;       '((1 . (background overline variable-pitch 1.5))
+  ;;         (2 . (background overline rainbow 1.3))
+  ;;         (3 . (overline 1.1))
+  ;;         (t . (monochrome))))
+  ;; (setq modus-themes-headings
+  ;;       '((1 . section 1.5)
+  ;;         (2 . section-no-bold)
+  ;;         (3 . rainbow-line)
+  ;;         (t . rainbow-line-no-bold)))
   (setq modus-themes-scale-headings t)
   (setq modus-themes-syntax 'yellow-comments-green-strings)
   (setq modus-themes-paren-match 'intense-bold)
   (setq modus-themes-variable-pitch-headings t)
   (setq modus-themes-variable-pitch-ui nil)
-  (setq modus-themes-scale-headings t)
-  (setq modus-themes-scale-1 1.1
-        modus-themes-scale-2 1.15
-        modus-themes-scale-3 1.21
-        modus-themes-scale-4 1.27
-        modus-themes-scale-title 1.33)
 
   (modus-themes-load-themes)
   :config
@@ -238,7 +315,7 @@
 (setq dired-listing-switches "-alh")
 
 (yas-global-mode 1)
-(setq yas-snippet-dirs '("~/.doom.d/snippets/"))
+;; (setq yas-snippet-dirs '("~/.doom.d/snippets/"))
 (setq yas-triggers-in-field t)
 
 (setq window-divider-default-right-width 1)
@@ -313,7 +390,7 @@
 (set-default-coding-systems 'utf-8)               ;; Default to utf-8 encoding
 (show-paren-mode 1)                               ;; Show the parent
 (global-aggressive-indent-mode 1)
-(add-to-list 'aggressive-indent-excluded-modes 'python-mode)
+;; (add-to-list 'aggressive-indent-excluded-modes 'python-mode)
 (setq-default auto-fill-function 'do-auto-fill)
 
 (global-visual-fill-column-mode 0)
@@ -323,11 +400,13 @@
       '(non-empty-second-line
         overlong-summary-line))
 
+;; (setq ghub-use-workaround-for-emacs-bug 'force)
+(setq auth-sources '("/Users/gchamoul/.authinfo"))
 (after! magit
   (setq magit-diff-refine-hunk 'all)
   (setq magit-save-some-buffers nil)
   (setq magit-remote-ref-format 'remote-slash-branch)
-  (setq magit-completing-read-function 'ivy-completing-read)
+  ;; (setq magit-completing-read-function 'ivy-completing-read)
   (setq magit-commit-signoff t)
 
   (global-set-key (kbd "<f3>") 'magit-status)
@@ -350,7 +429,7 @@
 (add-to-list 'git-commit-known-pseudo-headers "Depends-On")
 (add-to-list 'git-commit-known-pseudo-headers "Needed-By")
 
-(add-hook 'yaml-mode-hook '(lambda () (ansible 1)))
+(add-hook 'yaml-mode-hook (lambda () (ansible 1)))
 (add-hook 'yaml-mode-hook #'ansible-doc-mode)
 
 (custom-set-variables
@@ -361,16 +440,16 @@
 ;; Enable projectile caching because doom doesn't enable by default
 (setq projectile-enable-caching t)
 (setq projectile-project-search-path '("~/Projects/Code"))
-(setq projectile-completion-system 'ivy)
+;; (setq projectile-completion-system 'ivy)
 (setq projectile-mode-line
       '(:eval (format " Projectile[%s]"
                       (projectile-project-name))))
 (setq python-shell-interpreter "/usr/local/bin/python3")
 (setq python-shell-interpreter-args "")
 
-(ivy-mode 1)
-(setq ivy-use-virtual-buffers t)
-(setq ivy-count-format "(%d/%d) ")
+;; (ivy-mode 1)
+;; (setq ivy-use-virtual-buffers t)
+;; (setq ivy-count-format "(%d/%d) ")
 
 (define-key evil-normal-state-map (kbd "Q") (kbd "gqip"))
 (setq sentence-end-double-space t)
@@ -397,8 +476,6 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-;; (global-aggressive-indent-mode 1)
-;; (add-to-list 'aggressive-indent-excluded-modes 'python-mode)
 (setq org-journal-file-type 'yearly)
 (setq org-journal-file-format "%Y")
 (setq org-journal-date-format "%A, %m/%d/%Y")
@@ -431,7 +508,7 @@
       "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
 
 (display-time-mode 1)
-(setq display-time-format ".::. %a %e %b .::. %H:%M .::.")
+(setq display-time-format ".::. %a %e %b %H:%M .::.")
 (setq display-time-interval 60)
 (beacon-mode 1)
 
@@ -663,84 +740,6 @@
   ;; (add-hook! 'elfeed-search-mode-hook 'elfeed-update)
   )
 
-;; calibredb configuration
-(after! calibredb
-  (setq calibredb-root-dir "~/SDCARD32/Calibre"
-        calibredb-db-dir (expand-file-name "metadata.db" calibredb-root-dir))
-  (map! :map calibredb-show-mode-map
-        :ne "?" #'calibredb-entry-dispatch
-        :ne "o" #'calibredb-find-file
-        :ne "O" #'calibredb-find-file-other-frame
-        :ne "V" #'calibredb-open-file-with-default-tool
-        :ne "s" #'calibredb-set-metadata-dispatch
-        :ne "e" #'calibredb-export-dispatch
-        :ne "q" #'calibredb-entry-quit
-        :ne "." #'calibredb-open-dired
-        :ne [tab] #'calibredb-toggle-view-at-point
-        :ne "M-t" #'calibredb-set-metadata--tags
-        :ne "M-a" #'calibredb-set-metadata--author_sort
-        :ne "M-A" #'calibredb-set-metadata--authors
-        :ne "M-T" #'calibredb-set-metadata--title
-        :ne "M-c" #'calibredb-set-metadata--comments)
-  (map! :map calibredb-search-mode-map
-        :ne [mouse-3] #'calibredb-search-mouse
-        :ne "RET" #'calibredb-find-file
-        :ne "?" #'calibredb-dispatch
-        :ne "a" #'calibredb-add
-        :ne "A" #'calibredb-add-dir
-        :ne "c" #'calibredb-clone
-        :ne "d" #'calibredb-remove
-        :ne "D" #'calibredb-remove-marked-items
-        :ne "j" #'calibredb-next-entry
-        :ne "k" #'calibredb-previous-entry
-        :ne "l" #'calibredb-virtual-library-list
-        :ne "L" #'calibredb-library-list
-        :ne "n" #'calibredb-virtual-library-next
-        :ne "N" #'calibredb-library-next
-        :ne "p" #'calibredb-virtual-library-previous
-        :ne "P" #'calibredb-library-previous
-        :ne "s" #'calibredb-set-metadata-dispatch
-        :ne "S" #'calibredb-switch-library
-        :ne "o" #'calibredb-find-file
-        :ne "O" #'calibredb-find-file-other-frame
-        :ne "v" #'calibredb-view
-        :ne "V" #'calibredb-open-file-with-default-tool
-        :ne "." #'calibredb-open-dired
-        :ne "b" #'calibredb-catalog-bib-dispatch
-        :ne "e" #'calibredb-export-dispatch
-        :ne "r" #'calibredb-search-refresh-and-clear-filter
-        :ne "R" #'calibredb-search-clear-filter
-        :ne "q" #'calibredb-search-quit
-        :ne "m" #'calibredb-mark-and-forward
-        :ne "f" #'calibredb-toggle-favorite-at-point
-        :ne "x" #'calibredb-toggle-archive-at-point
-        :ne "h" #'calibredb-toggle-highlight-at-point
-        :ne "u" #'calibredb-unmark-and-forward
-        :ne "i" #'calibredb-edit-annotation
-        :ne "DEL" #'calibredb-unmark-and-backward
-        :ne [backtab] #'calibredb-toggle-view
-        :ne [tab] #'calibredb-toggle-view-at-point
-        :ne "M-n" #'calibredb-show-next-entry
-        :ne "M-p" #'calibredb-show-previous-entry
-        :ne "/" #'calibredb-search-live-filter
-        :ne "M-t" #'calibredb-set-metadata--tags
-        :ne "M-a" #'calibredb-set-metadata--author_sort
-        :ne "M-A" #'calibredb-set-metadata--authors
-        :ne "M-T" #'calibredb-set-metadata--title
-        :ne "M-c" #'calibredb-set-metadata--comments))
-
-;; Nov -- reading epub in emacs
-(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
-
-(defun my-nov-font-setup ()
-  (face-remap-add-relative 'variable-pitch :family "Liberation Serif"
-                           :height 1.0))
-(add-hook 'nov-mode-hook 'my-nov-font-setup)
-(setq nov-text-width t)
-(setq visual-fill-column-center-text t)
-(add-hook 'nov-mode-hook 'visual-line-mode)
-(add-hook 'nov-mode-hook 'visual-fill-column-mode)
-
 (after! org-tree-slide
   (global-set-key (kbd "<f8>") 'org-tree-slide-mode)
   (global-set-key (kbd "S-<f8>") 'org-tree-slide-skip-done-toggle)
@@ -753,3 +752,79 @@
   (setq org-tree-slide-skip-outline-level 4)
   (org-tree-slide-narrowing-control-profile)
   (setq org-tree-slide-skip-done nil))
+
+(setq ob-mermaid-cli-path "/usr/local/bin/mmdc")
+
+
+(osx-browse-mode 1)
+(setq shr-use-colors nil
+      shr-bullet "• "
+      shr-folding-mode t
+      eww-search-prefix "https://duckduckgo.com/html?q="
+      url-privacy-level '(email agent cookies lastloc))
+
+(defun osx-browse-url-forwork (url &optional new-window browser focus)
+  "Open URL in Brave, Vivaldi, or whatever I'm running on OS X for my day job.
+The parameters, URL, NEW-WINDOW, and FOCUS are as documented in
+the function, `osx-browse-url'."
+  (interactive (osx-browse-interactive-form))
+  (cl-callf or browser "com.google.Chrome") ;; Choices: com.apple.Safari
+  (osx-browse-url url new-window browser focus))
+
+(defun osx-browse-url-personal (url &optional new-window browser focus)
+  "Open URL in Firefox for my personal surfing.
+The parameters, URL, NEW-WINDOW, and FOCUS are as documented in
+the function, `osx-browse-url'."
+  (interactive (osx-browse-interactive-form))
+  (cl-callf or browser "org.mozilla.Firefox")
+  (osx-browse-url url new-window browser focus))
+
+(setq
+ ;; See: http://ergoemacs.org/emacs/emacs_set_default_browser.html
+ browse-url-handlers
+ '(("docs\\.google\\.com"  . osx-browse-url-personal)
+   ("redhat\\.com"         . osx-browse-url-personal)
+   ("opendev\\.org"        . osx-browse-url-personal)
+   ("github\\.com"         . osx-browse-url-personal)
+   ("duckduckgo\\.com"     . osx-browse-url-personal)
+   ("."                    . osx-browse-url-personal)))
+
+(setq world-clock-list
+      '(("Etc/UTC" "UTC")
+        ("America/Los_Angeles" "Seattle")
+        ("America/New_York" "New York")
+        ("Europe/London" "London")
+        ("Europe/Paris" "Paris")
+        ("Pacific/Auckland" "Auckland")
+        ("Asia/Shanghai" "Shanghai")
+        ("Asia/Tokyo" "Tokyo")))
+(setq world-clock-time-format "%a, %d %b %I:%M %p %Z")
+
+;; Set default connection mode to SSH
+(setq tramp-default-method "ssh")
+(eval-after-load 'tramp '(setenv "SHELL" "/bin/bash"))
+
+(autoload 'muttrc-mode "muttrc-mode.el"
+  "Major mode to edit muttrc files" t)
+(setq auto-mode-alist
+      (append '(("muttrc\\'" . muttrc-mode))
+              auto-mode-alist))
+
+(after! focus
+  (add-to-list 'focus-mode-to-thing '(python-mode . paragraph)))
+
+(typo-global-mode)
+
+(after! lsp-mode
+  (setq lsp-auto-guess-root t)
+  (add-hook 'go-mode-hook #'lsp-deferred)
+  (defun lsp-go-install-save-hooks ()
+    (add-hook 'before-save-hook #'lsp-format-buffer t t)
+    (add-hook 'before-save-hook #'lsp-organize-imports t t))
+  (add-hook 'go-mode-hook #'lsp-go-install-save-hooks))
+
+;(load "~/.doom.d/mutt.el")
+;(add-to-list 'auto-mode-alist '(".*neomutt.*" . mutt-mode))
+;(add-hook 'mutt-mode-hook 'turn-on-auto-fill)
+;(add-hook 'mutt-mode-hook 'filladapt-mode)
+;(add-hook 'mutt-mode-hook 'flyspell-mode)
