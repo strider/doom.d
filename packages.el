@@ -96,6 +96,9 @@
 
 (package! org-special-block-extras
   :recipe (:host github :repo "alhassy/org-special-block-extras"))
+
+(package! nov)
+
 ;; (package! erc-hl-nicks
 ;;   :recipe (:host github :repo "leathekd/erc-hl-nicks"))
 ;; (package! org-msg :disable t)

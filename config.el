@@ -828,3 +828,4 @@ the function, `osx-browse-url'."
     (add-hook 'before-save-hook #'lsp-organize-imports t t))
   (add-hook 'go-mode-hook #'lsp-go-install-save-hooks))
 
+(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
