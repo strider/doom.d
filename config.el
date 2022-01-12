@@ -57,6 +57,8 @@
       :ne "e s" (cmd! (find-file "~/.skhdrc"))
       :desc "Editing my neomutt.rc file"
       :ne "e n" (cmd! (find-file "~/.muttrc"))
+      :desc "Display World Clock"
+      :ne "e h" #'world-clock
       :desc "Search for a matching line"
       :ne "e l" #'consult-line
       :desc "Jump to flycheck error"
@@ -785,14 +787,21 @@ the function, `osx-browse-url'."
    ("."                    . osx-browse-url-personal)))
 
 (setq world-clock-list
-      '(("Etc/UTC" "UTC")
-        ("America/Los_Angeles" "Seattle")
+      '(("Pacific/Tahiti" "Tahiti")
+        ("America/Vancouver" "Vancouver")
+        ("America/Los_Angeles" "Los Angeles")
         ("America/New_York" "New York")
+        ("America/Sao_Paulo" "Saõ Paulo")
         ("Europe/London" "London")
+        ("Etc/UTC" "UTC")
         ("Europe/Paris" "Paris")
-        ("Pacific/Auckland" "Auckland")
+        ("Asia/Calcutta" "Calcutta")
         ("Asia/Shanghai" "Shanghai")
-        ("Asia/Tokyo" "Tokyo")))
+        ("Asia/Tokyo" "Tokyo")
+        ("Australia/Brisbane" "Brisbane")
+        ("Australia/Sydney" "Sydney")
+        ("Pacific/Auckland" "Auckland")))
+
 (setq world-clock-time-format "%a, %d %b %I:%M %p %Z")
 
 ;; Set default connection mode to SSH
