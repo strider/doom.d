@@ -828,8 +828,3 @@ the function, `osx-browse-url'."
     (add-hook 'before-save-hook #'lsp-organize-imports t t))
   (add-hook 'go-mode-hook #'lsp-go-install-save-hooks))
 
-;(load "~/.doom.d/mutt.el")
-;(add-to-list 'auto-mode-alist '(".*neomutt.*" . mutt-mode))
-;(add-hook 'mutt-mode-hook 'turn-on-auto-fill)
-;(add-hook 'mutt-mode-hook 'filladapt-mode)
-;(add-hook 'mutt-mode-hook 'flyspell-mode)
