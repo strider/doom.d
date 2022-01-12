@@ -442,7 +442,7 @@
 (setq projectile-mode-line
       '(:eval (format " Projectile[%s]"
                       (projectile-project-name))))
-(setq python-shell-interpreter "/usr/local/bin/python3")
+(setq python-shell-interpreter "python3")
 (setq python-shell-interpreter-args "")
 
 ;; (ivy-mode 1)
