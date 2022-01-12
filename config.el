@@ -24,8 +24,13 @@
 ;; (setq doom-font (font-spec :family "Iosevka Comfy" :size 12.5 :weight 'extrabold :height 135))
 ;; doom-variable-pitch-font (font-spec :family "Iosevka Comfy" :size 12.5 :weight 'normal))
 ;;
-(setq doom-font (font-spec :family "Agave" :size 18 :weight 'normal)
-      doom-variable-pitch-font (font-spec :family "Red Hat Text" :weight 'medium))
+(cond
+ (IS-MAC
+  (setq doom-font (font-spec :family "Agave" :size 14 :weight 'normal)
+        doom-variable-pitch-font (font-spec :family "Agave" :size 14 :weight 'normal)))
+ (IS-LINUX
+  (setq doom-font (font-spec :family "Agave" :size 18 :weight 'normal)
+        doom-variable-pitch-font (font-spec :family "Agave" :size 18 :weight 'normal))))
 ;; doom-variable-pitch-font (font-spec :family "Agave" :size 14 :weight 'normal))
 
 (setq doom-fallback-buffer-name "► Doom"
