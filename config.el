@@ -72,7 +72,8 @@
       evil-visual-state-cursor '(box "#F86155")
       evil-normal-state-cursor '(box "DeepSkyBlue3"))
 
-(menu-bar-mode t)
+(cond (IS-MAC (menu-bar-mode t)))
+
 (solaire-global-mode t)
 (setq all-the-icons-scale-factor 1.1)
 
