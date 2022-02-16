@@ -273,43 +273,44 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:()
 
-(use-package! modus-themes
-  :init
-  (setq modus-themes-italic-constructs t
-        modus-themes-bold-constructs t
-        modus-themes-region 'no-extend)
-  (setq modus-themes-diffs 'desaturated)
-  (setq modus-themes-mixed-fonts nil)
-  (setq modus-themes-mode-line '(accented borderless))
-  (setq modus-themes-org-blocks 'gray-background)
-  (setq modus-themes-deuteranopia t)
-  (setq modus-themes-completions 'opinionated)
-  (setq modus-themes-org-habit 'traffic-light)
-  ;; (setq modus-themes-intense-hl-line t)
-  (setq modus-themes-subtle-line-numbers t)
-  (setq modus-themes-intense-markup t)
-  (setq modus-themes-lang-checkers '(background text-also straight-underline))
-  (setq modus-themes-hl-line '(intense accented))
-  (setq modus-themes-headings
-        '((1 . (background overline variable-pitch 1.5))
-          (2 . (background overline rainbow 1.3))
-          (3 . (overline 1.1))
-          (t . (monochrome))))
-  ;; (setq modus-themes-headings
-  ;;       '((1 . section 1.5)
-  ;;         (2 . section-no-bold)
-  ;;         (3 . rainbow-line)
-  ;;         (t . rainbow-line-no-bold)))
-  (setq modus-themes-scale-headings t)
-  (setq modus-themes-syntax 'yellow-comments-green-strings)
-  (setq modus-themes-paren-match 'intense-bold)
-  (setq modus-themes-variable-pitch-headings t)
-  (setq modus-themes-variable-pitch-ui nil)
+(require 'modus-themes)
 
-  (modus-themes-load-themes)
-  :config
-  (modus-themes-load-vivendi)
-  :bind ("<f5>" . modus-themes-toggle))
+(setq modus-themes-italic-constructs t
+      modus-themes-bold-constructs t
+      modus-themes-region '(bg-only no-extend))
+(setq modus-themes-diffs 'desaturated)
+(setq modus-themes-mixed-fonts nil)
+(setq modus-themes-mode-line '(accented borderless))
+(setq modus-themes-org-blocks 'gray-background)
+(setq modus-themes-deuteranopia t)
+(setq modus-themes-completions 'opinionated)
+(setq modus-themes-org-habit 'traffic-light)
+;; (setq modus-themes-intense-hl-line t)
+(setq modus-themes-subtle-line-numbers t)
+(setq modus-themes-intense-markup t)
+(setq modus-themes-lang-checkers '(background text-also straight-underline))
+(setq modus-themes-hl-line '(intense accented))
+(setq modus-themes-headings
+      '((1 . (background overline variable-pitch 1.5))
+        (2 . (background overline rainbow 1.3))
+        (3 . (overline 1.1))
+        (t . (monochrome))))
+;; (setq modus-themes-headings
+;;       '((1 . section 1.5)
+;;         (2 . section-no-bold)
+;;         (3 . rainbow-line)
+;;         (t . rainbow-line-no-bold)))
+(setq modus-themes-scale-headings t)
+(setq modus-themes-syntax '(yellow-comments green-strings))
+(setq modus-themes-paren-match '(intense-bold))
+(setq modus-themes-variable-pitch-headings t)
+(setq modus-themes-variable-pitch-ui nil)
+
+;; Load the theme files before enabling a theme
+(modus-themes-load-themes)
+
+;; Load the theme of your choice:
+(modus-themes-load-vivendi)
 
 (global-anzu-mode +1)
 (global-set-key (kbd "C-;") 'iedit-mode)
