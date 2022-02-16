@@ -108,13 +108,10 @@
 (lsp-ui-mode)
 (lsp-ui-doc-frame-mode)
 (after! lsp-ui
-  (setq lsp-ui-doc-enable nil
+  (setq lsp-ui-doc-enable t
         lsp-ui-doc-header t
-        lsp-ui-doc-position 'top
-        lsp-ui-doc-max-width 150
-        lsp-ui-doc-max-height 50
+        lsp-ui-doc-border t
         lsp-ui-doc-include-signature t
-        lsp-ui-doc-use-webkit t
         lsp-ui-peek-enable t
         lsp-ui-peek-show-directory t
         lsp-ui-imenu-enable t
@@ -828,6 +825,7 @@ the function, `osx-browse-url'."
 (after! lsp-mode
   (setq lsp-auto-guess-root t)
   (add-hook 'go-mode-hook #'lsp-deferred)
+  (setq lsp-go-hover-kind "FullDocumentation")
   (defun lsp-go-install-save-hooks ()
     (add-hook 'before-save-hook #'lsp-format-buffer t t)
     (add-hook 'before-save-hook #'lsp-organize-imports t t))
