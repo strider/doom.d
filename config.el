@@ -90,19 +90,21 @@
     '(bar matches buffer-info remote-host buffer-position word-count parrot selection-info)
     '(misc-info debug lsp minor-modes checker input-method indent-info
                 buffer-encoding major-mode process checker vcs "    ")) ; <-- added padding here
-  (setq doom-modeline-height 25
-        doom-modeline-bar-width 3
-        doom-modeline-major-mode-color-icon t
-        doom-modeline-major-mode-icon t
-        doom-modeline-lsp t
-        doom-modeline-buffer-file-name-style 'truncate-all
-        doom-modeline-display-default-persp-name t
-        doom-modeline-persp-name t
-        doom-modeline-gnus nil
-        doom-modeline-mu4e nil
-        doom-modeline-minor-modes nil
-        doom-modeline-window-width-limit fill-column
-        doom-modeline-modal-icon t)
+  (setq
+   doom-modeline-hud nil
+   doom-modeline-bar-width 3
+   doom-modeline-major-mode-color-icon t
+   doom-modeline-major-mode-icon t
+   doom-modeline-lsp t
+   doom-modeline-buffer-file-name-style 'truncate-all
+   doom-modeline-display-default-persp-name t
+   doom-modeline-persp-name t
+   doom-modeline-gnus nil
+   doom-modeline-mu4e nil
+   doom-modeline-github nil
+   doom-modeline-minor-modes nil
+   doom-modeline-window-width-limit fill-column
+   doom-modeline-modal-icon t)
   )
 
 (lsp-ui-mode)
