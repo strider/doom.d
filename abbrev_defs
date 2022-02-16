@@ -479,7 +479,6 @@
     ("informatoin" "information" nil :count 0)
     ("inital" "initial" nil :count 0)
     ("initalization" "initialization" nil :count 0)
-    ("insights" "Insights" nil :count 2)
     ("instaleld" "installed" nil :count 0)
     ("insted" "instead" nil :count 0)
     ("insurence" "insurance" nil :count 0)
