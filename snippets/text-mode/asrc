@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: GC - asrc
+# uuid: asrc
+# key: asrc
+# condition: t
+# --
+[source,$1]
+----
+$2
+----
+$3

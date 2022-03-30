@@ -26,7 +26,7 @@
 ;;
 (cond
  (IS-MAC
-  (setq doom-font (font-spec :family "Agave" :size 14 :weight 'normal)
+  (setq doom-font (font-spec :family "Agave" :size 18 :weight 'normal)
         doom-variable-pitch-font (font-spec :family "Agave" :size 14 :weight 'normal)))
  (IS-LINUX
   (setq doom-font (font-spec :family "Agave" :size 18 :weight 'normal)
@@ -224,15 +224,15 @@
 ;;   ;; I prefer search matching to be ordered; it's more precise
 ;;   (add-to-list 'ivy-re-builders-alist '(counsel-projectile-find-file . ivy--regex-plus)))
 
-(after! company
-  (set-company-backend! 'org-mode '(company-yasnippet company-capf company-files company-elisp company-ispell))
-  (setq company-idle-delay 0.25
-        company-minimum-prefix-length 2)
-  (setq-default history-length 1000)
-  (setq-default prescient-history-length 1000)
-  ;; (add-to-list 'company-backends '(company-capf company-files company-yasnippet))
-  ;; (add-to-list '+lsp-company-backends 'company-files)
-  )
+;; (after! company
+;;   (set-company-backend! 'org-mode '(company-yasnippet company-capf company-files company-elisp company-ispell))
+;;   (setq company-idle-delay 0.25
+;;         company-minimum-prefix-length 2)
+;;   (setq-default history-length 1000)
+;;   (setq-default prescient-history-length 1000)
+;;   ;; (add-to-list 'company-backends '(company-capf company-files company-yasnippet))
+;;   ;; (add-to-list '+lsp-company-backends 'company-files)
+;;   )
 
 (rainbow-mode 1)
 
@@ -283,7 +283,7 @@
 (setq modus-themes-mode-line '(accented borderless))
 (setq modus-themes-org-blocks 'gray-background)
 (setq modus-themes-deuteranopia t)
-(setq modus-themes-completions 'opinionated)
+(setq modus-themes-completions '(opinionated))
 (setq modus-themes-org-habit 'traffic-light)
 ;; (setq modus-themes-intense-hl-line t)
 (setq modus-themes-subtle-line-numbers t)
@@ -404,6 +404,7 @@
         overlong-summary-line))
 
 ;; (setq ghub-use-workaround-for-emacs-bug 'force)
+(setq url-privacy-level '(email))
 (setq auth-sources '("/Users/gchamoul/.authinfo"))
 (after! magit
   (setq magit-diff-refine-hunk 'all)
@@ -414,9 +415,23 @@
 
   (global-set-key (kbd "<f3>") 'magit-status)
 
+  ;; (add-to-list 'forge-alist '("gitlab.cee.redhat.com" "gitlab.cee.redhat.com" forge-gitlab-repository))
+  ;; (setq code-review-gitlab-host "gitlab.cee.redhat.com/api")
+  ;; (setq code-review-gitlab-baseurl "gitlab.cee.redhat.com")
+  ;; (setq code-review-gitlab-graphql-host "gitlab.cee.redhat.com")
+  (setq
+   forge-alist
+   '(("gitlab.cee.redhat.com" "gitlab.cee.redhat.com/api/v4" "gitlab.cee.redhat.com" forge-gitlab-repository)
+     ("github.com" "api.github.com" "github.com" forge-github-repository))
+   )
+
+  (setq code-review-gitlab-host "gitlab.cee.redhat.com/api")
+  (setq code-review-gitlab-graphql-host "gitlab.cee.redhat.com/api")
   (setq magit-repository-directories
         '(("~/Projects/Code/tripleo/UPSTREAM" . 2)
           ("~/Projects/Code/tripleo/OOOQ/" . 2)
+          ("~/Projects/Code/Insights/github/" . 2)
+          ("~/Projects/Code/Insights/gitlab/" . 2)
           ("~/Projects/Code/laptop_config/" . 2)
           ("~/Projects/Code/ansible/" . 2))))
 
@@ -687,6 +702,8 @@
 
 (setq org-ellipsis " ↴ ")
 
+;; (after! org
+;;   (setq org-re-reveal-root "file:///Users/gchamoul/.doom.d/private/reveal.js/js/reveal.js"))
 (setq org-tags-column 0)
 ;; (setq org-tag-alist '(("@home" . ?h)
 ;;                       ("@computer" . ?c)
@@ -825,13 +842,120 @@ the function, `osx-browse-url'."
 
 (typo-global-mode)
 
-(after! lsp-mode
-  (setq lsp-auto-guess-root t)
-  (add-hook 'go-mode-hook #'lsp-deferred)
-  (setq lsp-go-hover-kind "FullDocumentation")
-  (defun lsp-go-install-save-hooks ()
-    (add-hook 'before-save-hook #'lsp-format-buffer t t)
-    (add-hook 'before-save-hook #'lsp-organize-imports t t))
-  (add-hook 'go-mode-hook #'lsp-go-install-save-hooks))
 
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+(add-to-list 'auto-mode-alist '("\\.adoc\\'" . adoc-mode))
+
+(use-package! corfu
+  ;; Optional customizations
+  :custom
+  (corfu-auto t)                 ;; Enable auto completion
+  (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+  ;; (corfu-separator ?\s)          ;; Orderless field separator
+  ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
+  ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
+  ;; (corfu-preview-current nil)    ;; Disable current candidate preview
+  (corfu-preselect-first nil)    ;; Disable candidate preselection
+  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
+  ;; (corfu-echo-documentation nil) ;; Disable documentation in the echo area
+  ;; (corfu-scroll-margin 5)        ;; Use scroll margin
+
+  ;; Use TAB for cycling, default is `corfu-complete'.
+  :bind
+  (:map corfu-map
+   ("TAB" . corfu-next)
+   ([tab] . corfu-next)
+   ("S-TAB" . corfu-previous)
+   ([backtab] . corfu-previous))
+
+  ;; You may want to enable Corfu only for certain modes.
+  ;; :hook ((prog-mode . corfu-mode)
+  ;;        (shell-mode . corfu-mode)
+  ;;        (eshell-mode . corfu-mode))
+
+  ;; Recommended: Enable Corfu globally.
+  ;; This is recommended since dabbrev can be used globally (M-/).
+  :init
+  (corfu-global-mode))
+
+(use-package! cape)
+
+;; (after! lsp-mode
+;;   (lsp-completion-provider :none)
+;;   (setq lsp-auto-guess-root t)
+;;   (add-hook 'go-mode-hook #'lsp-deferred)
+;;   (setq lsp-go-hover-kind "FullDocumentation")
+;;   (defun lsp-go-install-save-hooks ()
+;;     (add-hook 'before-save-hook #'lsp-format-buffer t t)
+;;     (add-hook 'before-save-hook #'lsp-organize-imports t t))
+;;   (add-hook 'go-mode-hook #'lsp-go-install-save-hooks))
+(use-package! lsp-mode
+  :custom
+  (lsp-completion-provider :none) ;; we use Corfu!
+  ;; (lsp-auto-guess-root t)
+  ;; (lsp-go-hover-kind "FullDocumentation")
+
+  :init
+  (defun my/orderless-dispatch-flex-first (_pattern index _total)
+    (and (eq index 0) 'orderless-flex))
+
+  (defun my/lsp-mode-setup-completion ()
+    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+          '(orderless)))
+
+  ;; Optionally configure the first word as flex filtered.
+  (add-hook 'orderless-style-dispatchers #'my/orderless-dispatch-flex-first nil 'local)
+  ;; (add-hook 'go-mode-hook #'lsp-deferred)
+
+  ;; (defun lsp-go-install-save-hooks ()
+  ;;   (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  ;;   (add-hook 'before-save-hook #'lsp-organize-imports t t))
+  ;; (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+
+  ;; Optionally configure the cape-capf-buster.
+  (setq-local completion-at-point-functions (list (cape-capf-buster #'lsp-completion-at-point)))
+
+  :hook
+  (lsp-completion-mode . my/lsp-mode-setup-completion))
+
+;; Optionally use the `orderless' completion style. See `+orderless-dispatch'
+;; in the Consult wiki for an advanced Orderless style dispatcher.
+;; Enable `partial-completion' for files to allow path expansion.
+;; You may prefer to use `initials' instead of `partial-completion'.
+(use-package! orderless
+  :init
+  ;; Configure a custom style dispatcher (see the Consult wiki)
+  ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
+  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
+  (setq completion-styles '(orderless)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles . (partial-completion))))))
+
+;; Use dabbrev with Corfu!
+(use-package! dabbrev
+  ;; Swap M-/ and C-M-/
+  :bind (("M-/" . dabbrev-completion)
+         ("C-M-/" . dabbrev-expand)))
+
+;; A few more useful configurations...
+(use-package! emacs
+  :init
+  ;; TAB cycle if there are only few candidates
+  (setq completion-cycle-threshold 3)
+
+  ;; Emacs 28: Hide commands in M-x which do not apply to the current mode.
+  ;; Corfu commands are hidden, since they are not supposed to be used via M-x.
+  ;; (setq read-extended-command-predicate
+  ;;       #'command-completion-default-include-p)
+
+  ;; Enable indentation+completion using the TAB key.
+  ;; `completion-at-point' is often bound to M-TAB.
+  (setq tab-always-indent 'complete))
+
+(defun corfu-move-to-minibuffer ()
+  (interactive)
+  (let ((completion-extra-properties corfu--extra)
+        completion-cycle-threshold completion-cycling)
+    (apply #'consult-completion-in-region completion-in-region--data)))
+(define-key corfu-map "\M-m" #'corfu-move-to-minibuffer)
+

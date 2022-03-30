@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: GC - anote
+# uuid: anote
+# key: anote
+# condition: t
+# --
+[$1]
+====
+$2
+====
+

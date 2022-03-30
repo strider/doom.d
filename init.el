@@ -20,7 +20,7 @@
 
        :completion
        ;; (company +auto +childframe +tng)          ; the ultimate code completion backend
-       company
+       ;; company
        ;;helm              ; the *other* search engine for love and life
        ;; ido               ; the other *other* search engine...
        ;; (ivy +fuzzy +prescient +icons) ; a search engine for love and life
@@ -100,7 +100,7 @@
        (lsp +peek)
        (magit +forge)            ; a git porcelain for Emacs
        make              ; run make tasks from Emacs
-       pass              ; password manager for nerds
+       pass +auth              ; password manager for nerds
        pdf               ; pdf enhancements
        ;;prodigy           ; FIXME managing external services & code builders
        ;;rgb               ; creating color strings
@@ -170,7 +170,7 @@
        ;;solidity          ; do you need a blockchain? No.
        ;;swift             ; who asked for emoji variables?
        ;;terra             ; Earth and Moon in alignment for performance.
-       ;;web               ; the tubes
+       web               ; the tubes
        (yaml +lsp)              ; JSON, but readable
 
        :email
@@ -182,7 +182,7 @@
        calendar
        ;;emms
        everywhere        ; *leave* Emacs!? You must be joking
-       ;;irc               ; how neckbeards socialize
+       ;; irc               ; how neckbeards socialize
        (rss +org)        ; emacs as an RSS reader
        ;;twitter           ; twitter client https://twitter.com/vnought
 

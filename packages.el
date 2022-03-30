@@ -57,11 +57,32 @@
 (package! muttrc-mode
   :recipe (:host github :repo "neomutt/muttrc-mode-el"))
 
+(package! pr-review
+  :recipe (:host github :repo "blahgeek/emacs-pr-review"))
+
+(package! vscode-dark-plus-emacs-theme
+  :recipe (:host github :repo "ianyepan/vscode-dark-plus-emacs-theme"))
+
 (package! ob-mermaid
   :recipe (:host github :repo "arnm/ob-mermaid"))
 
+(package! mermaid-mode
+  :recipe (:host github :repo "abrochard/mermaid-mode"))
+
 (package! sunrise-commander
   :recipe (:host github :repo "sunrise-commander/sunrise-commander"))
+
+(package! adoc-mode
+  :recipe (:host github :repo "sensorflo/adoc-mode"))
+
+(package! corfu
+  :recipe (:host github :repo "minad/corfu"))
+
+(package! orderless
+  :recipe (:host github :repo "oantolin/orderless"))
+
+(package! cape
+  :recipe (:host github :repo "minad/cape"))
 
 (package! focus
   :recipe (:host github :repo "larstvei/Focus"))
