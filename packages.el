@@ -15,6 +15,12 @@
 (package! keychain-environment
   :recipe (:host github :repo "tarsius/keychain-environment"))
 
+(package! shanty-themes
+  :recipe (:host github :repo "qhga/shanty-themes"))
+
+(package! flycheck-vale
+  :recipe (:host github :repo "abingham/flycheck-vale"))
+
 (package! expand-region)
 
 (package! typoel
@@ -118,7 +124,7 @@
 (package! org-special-block-extras
   :recipe (:host github :repo "alhassy/org-special-block-extras"))
 
-(package! nov)
+;; (package! nov)
 
 ;; (package! erc-hl-nicks
 ;;   :recipe (:host github :repo "leathekd/erc-hl-nicks"))

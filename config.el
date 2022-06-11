@@ -27,7 +27,7 @@
 (cond
  (IS-MAC
   (setq doom-font (font-spec :family "Agave" :size 18 :weight 'normal)
-        doom-variable-pitch-font (font-spec :family "Agave" :size 14 :weight 'normal)))
+        doom-variable-pitch-font (font-spec :family "Agave" :size 18 :weight 'normal)))
  (IS-LINUX
   (setq doom-font (font-spec :family "Agave" :size 18 :weight 'normal)
         doom-variable-pitch-font (font-spec :family "Agave" :size 18 :weight 'normal))))
@@ -72,10 +72,10 @@
 ;; Store my bookmarks in my private directory
 (setq bookmark-default-file (expand-file-name "private/bookmarks" doom-private-dir))
 
-(setq evil-mode-line-format nil
-      evil-insert-state-cursor '(bar "Gold1")
-      evil-visual-state-cursor '(box "#F86155")
-      evil-normal-state-cursor '(box "DeepSkyBlue3"))
+;; (setq evil-mode-line-format nil
+;;       evil-insert-state-cursor '(bar "Gold1")
+;;       evil-visual-state-cursor '(box "#F86155")
+;;       evil-normal-state-cursor '(box "DeepSkyBlue3"))
 
 (cond (IS-MAC (menu-bar-mode t)))
 
@@ -135,12 +135,12 @@
 
 (setq which-key-idle-delay 0.5)
 (setq which-key-allow-multiple-replacements t)
-(after! which-key
-  (pushnew!
-   which-key-replacement-alist
-   '(("" . "\\`+?evil[-:]?\\(?:a-\\)?\\(.*\\)") . (nil . "◂\\1"))
-   '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . "◃\\1"))
-   ))
+;; (after! which-key
+;;   (pushnew!
+;;    which-key-replacement-alist
+;;    '(("" . "\\`+?evil[-:]?\\(?:a-\\)?\\(.*\\)") . (nil . "◂\\1"))
+;;    '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . "◃\\1"))
+;;    ))
 
 ;; Using Red Hat First logo as a banner! ;-)
 (setq fancy-splash-image (expand-file-name "red_hat_logo.png" doom-private-dir))
@@ -162,7 +162,7 @@
 ;;Line Spacing by default
 (setq-default line-spacing 0)
 (setq undo-limit 80000000                         ; Raise undo-limit to 80Mb
-      evil-want-fine-undo t                       ; By default while in insert all changes are one big blob. Be more granular
+      ;; evil-want-fine-undo t                       ; By default while in insert all changes are one big blob. Be more granular
       auto-save-default t                         ; Nobody likes to loose work, I certainly don't
       truncate-string-ellipsis "…")               ; Unicode ellispis are nicer than "...", and also save /precious/ space
 
@@ -251,14 +251,14 @@
         :desc "Dired view file"
         "d v" #'dired-view-file)))
 ;; Make 'h' and 'l' go back and forward in dired. Much faster to navigate the directory structure!
-(evil-define-key 'normal dired-mode-map
-  (kbd "h") 'dired-up-directory
-  (kbd "l") 'dired-open-file) ; use dired-find-file instead if not using dired-open package
-;; If peep-dired is enabled, you will get image previews as you go up/down with 'j' and 'k'
-(evil-define-key 'normal peep-dired-mode-map
-  (kbd "j") 'peep-dired-next-file
-  (kbd "k") 'peep-dired-prev-file)
-(add-hook 'peep-dired-hook 'evil-normalize-keymaps)
+;; (evil-define-key 'normal dired-mode-map
+;;   (kbd "h") 'dired-up-directory
+;;   (kbd "l") 'dired-open-file) ; use dired-find-file instead if not using dired-open package
+;; ;; If peep-dired is enabled, you will get image previews as you go up/down with 'j' and 'k'
+;; (evil-define-key 'normal peep-dired-mode-map
+;;   (kbd "j") 'peep-dired-next-file
+;;   (kbd "k") 'peep-dired-prev-file)
+;; (add-hook 'peep-dired-hook 'evil-normalize-keymaps)
 ;; Get file icons in dired
 (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 ;; With dired-open plugin, you can launch external programs for certain extensions
@@ -279,15 +279,25 @@
       modus-themes-bold-constructs t
       modus-themes-region '(bg-only no-extend))
 (setq modus-themes-diffs 'desaturated)
-(setq modus-themes-mixed-fonts nil)
-(setq modus-themes-mode-line '(accented borderless))
+(setq modus-themes-mixed-fonts t)
+(setq modus-themes-mode-line '(moody accented borderless))
 (setq modus-themes-org-blocks 'gray-background)
+(setq modus-themes-markup '(intense background bold italic))
 (setq modus-themes-deuteranopia t)
-(setq modus-themes-completions '(opinionated))
-(setq modus-themes-org-habit 'traffic-light)
+(setq modus-themes-completions
+      '((matches extrabold background intense)
+        (selection semibold accented intense)
+        (popup accented)))
+(setq modus-themes-links '(faint italic bold background))
+(setq modus-themes-prompts '(intense background italic bold))
+(setq modus-themes-org-agenda
+      '((header-block . (variable-pitch 1.5))
+        (header-date . (grayscale workaholic bold-today 1.2))
+        (event . (accented italic varied))
+        (scheduled . uniform)
+        (habit . traffic-light)))
 ;; (setq modus-themes-intense-hl-line t)
 (setq modus-themes-subtle-line-numbers t)
-(setq modus-themes-intense-markup t)
 (setq modus-themes-lang-checkers '(background text-also straight-underline))
 (setq modus-themes-hl-line '(intense accented))
 (setq modus-themes-headings
@@ -295,16 +305,12 @@
         (2 . (background overline rainbow 1.3))
         (3 . (overline 1.1))
         (t . (monochrome))))
-;; (setq modus-themes-headings
-;;       '((1 . section 1.5)
-;;         (2 . section-no-bold)
-;;         (3 . rainbow-line)
-;;         (t . rainbow-line-no-bold)))
 (setq modus-themes-scale-headings t)
-(setq modus-themes-syntax '(yellow-comments green-strings))
-(setq modus-themes-paren-match '(intense-bold))
+(setq modus-themes-syntax '(faint alt-syntax yellow-comments green-strings))
+(setq modus-themes-paren-match '(intense bold))
 (setq modus-themes-variable-pitch-headings t)
 (setq modus-themes-variable-pitch-ui nil)
+(setq modus-themes-region '(accented bg-only no-extend))
 
 ;; Load the theme files before enabling a theme
 (modus-themes-load-themes)
@@ -343,10 +349,10 @@
 (if (file-exists-p abbrev-file-name)
     (quietly-read-abbrev-file))
 
-(cua-mode t)
-;; Switch to the new window after splitting
-(setq evil-split-window-below t
-      evil-vsplit-window-right t)
+;; (cua-mode nil)
+;; ;; Switch to the new window after splitting
+;; (setq evil-split-window-below t
+;;       evil-vsplit-window-right t)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -451,9 +457,9 @@
 (add-hook 'yaml-mode-hook #'ansible-doc-mode)
 
 (custom-set-variables
- '(flycheck-python-flake8-executable "python3")
- '(flycheck-python-pycompile-executable "python3")
- '(flycheck-python-pylint-executable "python3"))
+ '(flycheck-python-flake8-executable "/usr/local/bin/python")
+ '(flycheck-python-pycompile-executable "/usr/local/bin/python")
+ '(flycheck-python-pylint-executable "/usr/local/bin/python"))
 
 ;; Enable projectile caching because doom doesn't enable by default
 (setq projectile-enable-caching t)
@@ -462,14 +468,14 @@
 (setq projectile-mode-line
       '(:eval (format " Projectile[%s]"
                       (projectile-project-name))))
-(setq python-shell-interpreter "python3")
+(setq python-shell-interpreter "/usr/local/bin/python")
 (setq python-shell-interpreter-args "")
 
 ;; (ivy-mode 1)
 ;; (setq ivy-use-virtual-buffers t)
 ;; (setq ivy-count-format "(%d/%d) ")
 
-(define-key evil-normal-state-map (kbd "Q") (kbd "gqip"))
+;; (define-key evil-normal-state-map (kbd "Q") (kbd "gqip"))
 (setq sentence-end-double-space t)
 
 (setq ibuffer-modified-char ?✍)
@@ -689,8 +695,8 @@
 
 (after! org (setq org-habit-show-habits t))
 
-(after! evil-org
-  (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
+;; (after! evil-org
+;;   (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
 
 (after! org (setq org-log-into-drawer "LOGBOOK"
                   org-log-done 'time
@@ -876,7 +882,7 @@ the function, `osx-browse-url'."
   ;; Recommended: Enable Corfu globally.
   ;; This is recommended since dabbrev can be used globally (M-/).
   :init
-  (corfu-global-mode))
+  (global-corfu-mode))
 
 (use-package! cape)
 
@@ -959,3 +965,6 @@ the function, `osx-browse-url'."
     (apply #'consult-completion-in-region completion-in-region--data)))
 (define-key corfu-map "\M-m" #'corfu-move-to-minibuffer)
 
+(use-package! flycheck-vale)
+;; (flycheck-vale-setup)
+;; (flycheck-vale-enabled)
