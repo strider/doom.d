@@ -50,24 +50,23 @@
       :ne "q" #'save-buffers-kill-terminal)
 
 (map! :leader
-      :desc "Editing my work dot org file"
-      :ne "e w" (cmd! (find-file "~/Dropbox/org/work.org"))
-      :desc "Editing my personal.org file"
-      :ne "e p" (cmd! (find-file "~/Dropbox/org/personal.org"))
-      :desc "Editing my technical_notes.org file"
-      :ne "e t" (cmd! (find-file "~/Dropbox/org/technical_notes.org"))
-      :desc "Editing my .yabairc file"
-      :ne "e y" (cmd! (find-file "~/.yabairc"))
-      :desc "Editing my .skhdrc file"
-      :ne "e s" (cmd! (find-file "~/.skhdrc"))
-      :desc "Editing my neomutt.rc file"
-      :ne "e n" (cmd! (find-file "~/.muttrc"))
-      :desc "Display World Clock"
-      :ne "e h" #'world-clock
-      :desc "Search for a matching line"
-      :ne "e l" #'consult-line
-      :desc "Jump to flycheck error"
-      :ne "e f" #'consult-flycheck)
+      (:prefix-map ("g" . "gc-prefix")
+       :desc "Editing my work dot org file"        "w" (cmd! (find-file
+                                                              "~/Dropbox/org/work.org"))
+       :desc "Editing my personal dot org file"    "p" (cmd! (find-file
+                                                              "~/Dropbox/org/personal.org"))
+       :desc "Editing my .yabairc file"            "y" (cmd! (find-file
+                                                              "~/.yabairc"))
+       :desc "Editing my .skhdrc file"             "s" (cmd! (find-file
+                                                              "~/.skhdrc"))
+       :desc "Editing my neomutt.rc file"          "n" (cmd! (find-file
+                                                              "~/.muttrc"))
+       :desc "Display World Clock"                 "h" #'world-clock
+
+       :desc "Search for matching line"            "l" #'consult-line
+       :desc "Jump to flycheck error"              "f" #'consult-flycheck
+
+       ))
 
 ;; Store my bookmarks in my private directory
 (setq bookmark-default-file (expand-file-name "private/bookmarks" doom-private-dir))
