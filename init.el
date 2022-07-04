@@ -24,23 +24,27 @@
        ;;helm              ; the *other* search engine for love and life
        ;; ido               ; the other *other* search engine...
        ;; (ivy +fuzzy +prescient +icons) ; a search engine for love and life
-       (vertico +icons)
+       (corfu +orderless)
+       (vertico +orderless +icons)
 
        :ui
        ;; deft              ; notational velocity for Emacs
        doom              ; what makes DOOM look the way it does
        doom-dashboard    ; a nifty splash screen for Emacs
-       doom-quit         ; DOOM quit-message prompts when you quit Emacs
+       ;; doom-quit         ; DOOM quit-message prompts when you quit Emacs
        (emoji +unicode +github +ascii)  ; 🙂
        ;;fill-column       ; a `fill-column' indicator
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
        hydra
+       (telephone-line     ; PRIVATE another modeline implementation
+        +minions
+        +keycast)
        ;; indent-guides     ; highlighted indent columns
-       ligatures        ; ligatures and symbols to make your code pretty again
-       ;;minimap           ; show a map of the code on the side
+       ;; ligatures        ; ligatures and symbols to make your code pretty again
+       ;; minimap           ; show a map of the code on the side
 
        ;; (modeline +light)          ; snazzy, Atom-inspired modeline, plus API
-       (modeline)
+       ;; (modeline)
        ;;nav-flash         ; blink cursor line after big motions
        ;;neotree           ; a project drawer, like NERDTree for vim
        ophints           ; highlight the region an operation acts on
@@ -55,7 +59,7 @@
        zen               ; distraction-free coding or writing
 
        :editor
-       ;; (evil +everywhere); come to the dark side, we have cookies
+       (evil +everywhere); come to the dark side, we have cookies
        file-templates    ; auto-snippets for empty files
        fold              ; (nigh) universal code folding
        format  ; automated prettiness

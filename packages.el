@@ -81,14 +81,20 @@
 (package! adoc-mode
   :recipe (:host github :repo "sensorflo/adoc-mode"))
 
-(package! corfu
-  :recipe (:host github :repo "minad/corfu"))
+(package! company :disable t)
 
-(package! orderless
-  :recipe (:host github :repo "oantolin/orderless"))
+;; (package! corfu
+;;   :recipe (:host github :repo "minad/corfu"))
 
-(package! cape
-  :recipe (:host github :repo "minad/cape"))
+;; (package! corfu-doc
+;;   :recipe (:host github :repo "galeo/corfu-doc"))
+
+;; (package! kind-icon)
+;; (package! orderless
+;;   :recipe (:host github :repo "oantolin/orderless"))
+
+;; (package! cape
+;;   :recipe (:host github :repo "minad/cape"))
 
 (package! focus
   :recipe (:host github :repo "larstvei/Focus"))
@@ -117,6 +123,9 @@
 
 (package! vagrant
   :recipe (:host github :repo "ottbot/vagrant.el"))
+
+(package! syntree
+  :recipe (:host github :repo "enricoflor/syntree"))
 
 (package! vagrant-tramp
   :recipe (:host github :repo "dougm/vagrant-tramp"))

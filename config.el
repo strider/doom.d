@@ -1,4 +1,5 @@
 ;;; $$DOOMDIR/config.el -*- lexical-binding: t; -*-
+;;;
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
@@ -32,6 +33,7 @@
   (setq doom-font (font-spec :family "Agave" :size 18 :weight 'normal)
         doom-variable-pitch-font (font-spec :family "Agave" :size 18 :weight 'normal))))
 ;; doom-variable-pitch-font (font-spec :family "Agave" :size 14 :weight 'normal))
+;;
 
 (setq doom-fallback-buffer-name "► Doom"
       +doom-dashboard-name "► Doom")
@@ -50,31 +52,25 @@
       :ne "q" #'save-buffers-kill-terminal)
 
 (map! :leader
-      (:prefix-map ("g" . "gc-prefix")
-       :desc "Editing my work dot org file"        "w" (cmd! (find-file
-                                                              "~/Dropbox/org/work.org"))
-       :desc "Editing my personal dot org file"    "p" (cmd! (find-file
-                                                              "~/Dropbox/org/personal.org"))
-       :desc "Editing my .yabairc file"            "y" (cmd! (find-file
-                                                              "~/.yabairc"))
-       :desc "Editing my .skhdrc file"             "s" (cmd! (find-file
-                                                              "~/.skhdrc"))
-       :desc "Editing my neomutt.rc file"          "n" (cmd! (find-file
-                                                              "~/.muttrc"))
-       :desc "Display World Clock"                 "h" #'world-clock
-
-       :desc "Search for matching line"            "l" #'consult-line
-       :desc "Jump to flycheck error"              "f" #'consult-flycheck
+      (:prefix-map ("e" . "gc-prefix")
+       :desc "Editing my work dot org file"     "w" (cmd! (find-file "~/Dropbox/org/work.org"))
+       :desc "Editing my personal dot org file" "p" (cmd! (find-file "~/Dropbox/org/personal.org"))
+       :desc "Editing my .yabairc file"         "y" (cmd! (find-file "~/.yabairc"))
+       :desc "Editing my .skhdrc file"          "s" (cmd! (find-file "~/.skhdrc"))
+       :desc "Editing my neomutt.rc file"       "n" (cmd! (find-file "~/.muttrc"))
+       :desc "Display World Clock"              "h" #'world-clock
+       :desc "Search for matching line"         "l" #'consult-line
+       :desc "Jump to flycheck error"           "f" #'consult-flycheck
 
        ))
 
 ;; Store my bookmarks in my private directory
 (setq bookmark-default-file (expand-file-name "private/bookmarks" doom-private-dir))
 
-;; (setq evil-mode-line-format nil
-;;       evil-insert-state-cursor '(bar "Gold1")
-;;       evil-visual-state-cursor '(box "#F86155")
-;;       evil-normal-state-cursor '(box "DeepSkyBlue3"))
+(setq evil-mode-line-format nil
+      evil-insert-state-cursor '(bar "Gold1")
+      evil-visual-state-cursor '(box "#F86155")
+      evil-normal-state-cursor '(box "DeepSkyBlue3"))
 
 (cond (IS-MAC (menu-bar-mode t)))
 
@@ -134,12 +130,12 @@
 
 (setq which-key-idle-delay 0.5)
 (setq which-key-allow-multiple-replacements t)
-;; (after! which-key
-;;   (pushnew!
-;;    which-key-replacement-alist
-;;    '(("" . "\\`+?evil[-:]?\\(?:a-\\)?\\(.*\\)") . (nil . "◂\\1"))
-;;    '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . "◃\\1"))
-;;    ))
+(after! which-key
+  (pushnew!
+   which-key-replacement-alist
+   '(("" . "\\`+?evil[-:]?\\(?:a-\\)?\\(.*\\)") . (nil . "◂\\1"))
+   '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . "◃\\1"))
+   ))
 
 ;; Using Red Hat First logo as a banner! ;-)
 (setq fancy-splash-image (expand-file-name "red_hat_logo.png" doom-private-dir))
@@ -250,14 +246,14 @@
         :desc "Dired view file"
         "d v" #'dired-view-file)))
 ;; Make 'h' and 'l' go back and forward in dired. Much faster to navigate the directory structure!
-;; (evil-define-key 'normal dired-mode-map
-;;   (kbd "h") 'dired-up-directory
-;;   (kbd "l") 'dired-open-file) ; use dired-find-file instead if not using dired-open package
-;; ;; If peep-dired is enabled, you will get image previews as you go up/down with 'j' and 'k'
-;; (evil-define-key 'normal peep-dired-mode-map
-;;   (kbd "j") 'peep-dired-next-file
-;;   (kbd "k") 'peep-dired-prev-file)
-;; (add-hook 'peep-dired-hook 'evil-normalize-keymaps)
+(evil-define-key 'normal dired-mode-map
+                 (kbd "h") 'dired-up-directory
+                 (kbd "l") 'dired-open-file) ; use dired-find-file instead if not using dired-open package
+;; If peep-dired is enabled, you will get image previews as you go up/down with 'j' and 'k'
+(evil-define-key 'normal peep-dired-mode-map
+                 (kbd "j") 'peep-dired-next-file
+                 (kbd "k") 'peep-dired-prev-file)
+(add-hook 'peep-dired-hook 'evil-normalize-keymaps)
 ;; Get file icons in dired
 (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 ;; With dired-open plugin, you can launch external programs for certain extensions
@@ -279,7 +275,7 @@
       modus-themes-region '(bg-only no-extend))
 (setq modus-themes-diffs 'desaturated)
 (setq modus-themes-mixed-fonts t)
-(setq modus-themes-mode-line '(moody accented borderless))
+;; (setq modus-themes-mode-line '(moody accented borderless))
 (setq modus-themes-org-blocks 'gray-background)
 (setq modus-themes-markup '(intense background bold italic))
 (setq modus-themes-deuteranopia t)
@@ -348,10 +344,10 @@
 (if (file-exists-p abbrev-file-name)
     (quietly-read-abbrev-file))
 
-;; (cua-mode nil)
-;; ;; Switch to the new window after splitting
-;; (setq evil-split-window-below t
-;;       evil-vsplit-window-right t)
+(cua-mode t)
+;; Switch to the new window after splitting
+(setq evil-split-window-below t
+      evil-vsplit-window-right t)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -474,7 +470,7 @@
 ;; (setq ivy-use-virtual-buffers t)
 ;; (setq ivy-count-format "(%d/%d) ")
 
-;; (define-key evil-normal-state-map (kbd "Q") (kbd "gqip"))
+(define-key evil-normal-state-map (kbd "Q") (kbd "gqip"))
 (setq sentence-end-double-space t)
 
 (setq ibuffer-modified-char ?✍)
@@ -851,119 +847,21 @@ the function, `osx-browse-url'."
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 (add-to-list 'auto-mode-alist '("\\.adoc\\'" . adoc-mode))
 
-(use-package! corfu
-  ;; Optional customizations
-  :custom
-  (corfu-auto t)                 ;; Enable auto completion
-  (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
-  ;; (corfu-separator ?\s)          ;; Orderless field separator
-  ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
-  ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
-  ;; (corfu-preview-current nil)    ;; Disable current candidate preview
-  (corfu-preselect-first nil)    ;; Disable candidate preselection
-  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
-  ;; (corfu-echo-documentation nil) ;; Disable documentation in the echo area
-  ;; (corfu-scroll-margin 5)        ;; Use scroll margin
-
-  ;; Use TAB for cycling, default is `corfu-complete'.
-  :bind
-  (:map corfu-map
-   ("TAB" . corfu-next)
-   ([tab] . corfu-next)
-   ("S-TAB" . corfu-previous)
-   ([backtab] . corfu-previous))
-
-  ;; You may want to enable Corfu only for certain modes.
-  ;; :hook ((prog-mode . corfu-mode)
-  ;;        (shell-mode . corfu-mode)
-  ;;        (eshell-mode . corfu-mode))
-
-  ;; Recommended: Enable Corfu globally.
-  ;; This is recommended since dabbrev can be used globally (M-/).
-  :init
-  (global-corfu-mode))
-
-(use-package! cape)
-
-;; (after! lsp-mode
-;;   (lsp-completion-provider :none)
-;;   (setq lsp-auto-guess-root t)
-;;   (add-hook 'go-mode-hook #'lsp-deferred)
-;;   (setq lsp-go-hover-kind "FullDocumentation")
-;;   (defun lsp-go-install-save-hooks ()
-;;     (add-hook 'before-save-hook #'lsp-format-buffer t t)
-;;     (add-hook 'before-save-hook #'lsp-organize-imports t t))
-;;   (add-hook 'go-mode-hook #'lsp-go-install-save-hooks))
-(use-package! lsp-mode
-  :custom
-  (lsp-completion-provider :none) ;; we use Corfu!
-  ;; (lsp-auto-guess-root t)
-  ;; (lsp-go-hover-kind "FullDocumentation")
-
-  :init
-  (defun my/orderless-dispatch-flex-first (_pattern index _total)
-    (and (eq index 0) 'orderless-flex))
-
-  (defun my/lsp-mode-setup-completion ()
-    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-          '(orderless)))
-
-  ;; Optionally configure the first word as flex filtered.
-  (add-hook 'orderless-style-dispatchers #'my/orderless-dispatch-flex-first nil 'local)
-  ;; (add-hook 'go-mode-hook #'lsp-deferred)
-
-  ;; (defun lsp-go-install-save-hooks ()
-  ;;   (add-hook 'before-save-hook #'lsp-format-buffer t t)
-  ;;   (add-hook 'before-save-hook #'lsp-organize-imports t t))
-  ;; (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
-
-  ;; Optionally configure the cape-capf-buster.
-  (setq-local completion-at-point-functions (list (cape-capf-buster #'lsp-completion-at-point)))
-
-  :hook
-  (lsp-completion-mode . my/lsp-mode-setup-completion))
-
-;; Optionally use the `orderless' completion style. See `+orderless-dispatch'
-;; in the Consult wiki for an advanced Orderless style dispatcher.
-;; Enable `partial-completion' for files to allow path expansion.
-;; You may prefer to use `initials' instead of `partial-completion'.
-(use-package! orderless
-  :init
-  ;; Configure a custom style dispatcher (see the Consult wiki)
-  ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
-  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
-  (setq completion-styles '(orderless)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles . (partial-completion))))))
-
-;; Use dabbrev with Corfu!
-(use-package! dabbrev
-  ;; Swap M-/ and C-M-/
-  :bind (("M-/" . dabbrev-completion)
-         ("C-M-/" . dabbrev-expand)))
-
-;; A few more useful configurations...
-(use-package! emacs
-  :init
-  ;; TAB cycle if there are only few candidates
-  (setq completion-cycle-threshold 3)
-
-  ;; Emacs 28: Hide commands in M-x which do not apply to the current mode.
-  ;; Corfu commands are hidden, since they are not supposed to be used via M-x.
-  ;; (setq read-extended-command-predicate
-  ;;       #'command-completion-default-include-p)
-
-  ;; Enable indentation+completion using the TAB key.
-  ;; `completion-at-point' is often bound to M-TAB.
-  (setq tab-always-indent 'complete))
-
-(defun corfu-move-to-minibuffer ()
-  (interactive)
-  (let ((completion-extra-properties corfu--extra)
-        completion-cycle-threshold completion-cycling)
-    (apply #'consult-completion-in-region completion-in-region--data)))
-(define-key corfu-map "\M-m" #'corfu-move-to-minibuffer)
-
-(use-package! flycheck-vale)
+;; (use-package! flycheck-vale)
 ;; (flycheck-vale-setup)
 ;; (flycheck-vale-enabled)
+;; Split indirect buffer, via
+;; https://github.com/frankjonen/emacs-for-writers/blob/898c9755598c8e689019b751f194e2e73b23bb03/.spacemacs
+
+(defun gc/my-split-and-indirect-orgtree ()
+  "Splits window to the right and opens an org tree section in it"
+  (interactive)
+  (split-window-right)
+  (windmove-right)
+  (org-tree-to-indirect-buffer))
+
+(defun gc/my-kill-and-unsplit-orgtree ()
+  "Kills the cloned buffer and deletes the window."
+  (interactive)
+  (kill-this-buffer)
+  (delete-window))
