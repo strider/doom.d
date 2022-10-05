@@ -1,12 +1,12 @@
 ;; -*- no-byte-compile: t; -*-
 ;;; ui/telephone-line/packages.el
 
-(when (featurep! +minions)
+(when (modulep! +minions)
   (package! minions))
-(when (featurep! +keycast)
+(when (modulep! +keycast)
   (package! keycast))
 (package! anzu)
 (package! evil-anzu)
 (package! telephone-line)
-(when (featurep! :checkers syntax)
+(when (modulep! :checkers syntax)
   (package! flycheck-indicator))

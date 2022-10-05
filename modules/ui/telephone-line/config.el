@@ -1,6 +1,6 @@
 ;;; ui/telephone-line/config.el -*- lexical-binding: t; -*-
 
-(when (featurep! +keycast)
+(when (modulep! +keycast)
   (load! "+keycast"))
 
 (use-package flycheck-indicator
@@ -39,7 +39,7 @@
         (setq selected-window (frame-selected-window))))))
 
 (use-package! minions
-  :when (featurep! +minions)
+  :when (modulep! +minions)
   :hook (after-init . minions-mode)
   :init
   (telephone-line-defsegment* telephone-line-minions-segment ()
@@ -71,7 +71,7 @@
                               anzu--cached-count anzu--cached-positions anzu--last-command
                               anzu--last-isearch-string anzu--overflow-p)))
 (use-package! evil-anzu
-  :when (featurep! :editor evil)
+  :when (modulep! :editor evil)
   :after-call (evil-ex-start-search evil-ex-start-word-search evil-ex-search-activate-highlight))
 
 (defun mode-line--anzu ()
@@ -224,7 +224,6 @@ Requires `anzu', also `evil-anzu' if using `evil-mode' for compatibility with
       (`errored     (mode-line-format-icon "sim_card_alert" "!" 'error "Errored!"))
       (`interrupted (mode-line-format-icon "pause" "!" 'font-lock-comment-face "Interrupted"))
       (`suspicious  (mode-line-format-icon "priority_high" "!" 'error "Suspicious")))))
-
 
 (defface telephone-line-gagbo-highlight-active-face
   `((t (:background ,(face-background 'lazy-highlight) :foreground ,(face-foreground 'default) :italic t :inherit mode-line)))

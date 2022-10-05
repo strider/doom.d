@@ -24,7 +24,7 @@
        ;;helm              ; the *other* search engine for love and life
        ;; ido               ; the other *other* search engine...
        ;; (ivy +fuzzy +prescient +icons) ; a search engine for love and life
-       (corfu +orderless)
+       (corfu +orderless +icon +minibuffer)
        (vertico +orderless +icons)
 
        :ui
@@ -35,16 +35,15 @@
        (emoji +unicode +github +ascii)  ; 🙂
        ;;fill-column       ; a `fill-column' indicator
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
-       hydra
-       (telephone-line     ; PRIVATE another modeline implementation
+       ;; hydra
+       ;; modeline             ; snazzy, Atom-inspired modeline, plus API
+       (telephone-line        ; PRIVATE another modeline implementation
         +minions
         +keycast)
        ;; indent-guides     ; highlighted indent columns
        ;; ligatures        ; ligatures and symbols to make your code pretty again
        ;; minimap           ; show a map of the code on the side
 
-       ;; (modeline +light)          ; snazzy, Atom-inspired modeline, plus API
-       ;; (modeline)
        ;;nav-flash         ; blink cursor line after big motions
        ;;neotree           ; a project drawer, like NERDTree for vim
        ophints           ; highlight the region an operation acts on
@@ -52,8 +51,8 @@
        ;; tabs              ; a tab bar for Emacs
        treemacs          ; a project drawer, like neotree but cooler
        unicode           ; extended unicode support for various languages
-       ;; vc-gutter         ; vcs diff in the fringe
-       ;; vi-tilde-fringe   ; fringe tildes to mark beyond EOB
+       ;;(vc-gutter +pretty)         ; vcs diff in the fringe
+       ;;vi-tilde-fringe   ; fringe tildes to mark beyond EOB
        window-select     ; visually switch windows
        workspaces        ; tab emulation, persistence & separate workspaces
        zen               ; distraction-free coding or writing
@@ -65,7 +64,7 @@
        format  ; automated prettiness
        ;;god               ; run Emacs commands without modifier keys
        ;;lispy             ; vim for lisp, for people who don't like vim
-       multiple-cursors  ; editing in many places at once
+       ;;multiple-cursors  ; editing in many places at once
        ;;objed             ; text object editing for the innocent
        ;;parinfer          ; turn lisp into python, sort of
        ;;rotate-text       ; cycle region at point between text candidates
@@ -104,13 +103,14 @@
        (lsp +peek)
        (magit +forge)            ; a git porcelain for Emacs
        make              ; run make tasks from Emacs
-       pass +auth              ; password manager for nerds
+       (pass +auth)              ; password manager for nerds
        pdf               ; pdf enhancements
        ;;prodigy           ; FIXME managing external services & code builders
        ;;rgb               ; creating color strings
        ;;taskrunner        ; taskrunner for all your projects
        ;;terraform         ; infrastructure as code
        ;; tmux              ; an API for interacting with tmux
+       tree-sitter
        ;; upload            ; map local to remote projects via ssh/ftp
 
        :os
@@ -141,8 +141,8 @@
        ;;hy                ; readability of scheme w/ speed of python
        ;;idris             ; a language you can depend on
        json              ; At least it ain't XML
-       ;;(java +meghanada) ; the poster child for carpal tunnel syndrome
-       ;;javascript        ; all(hope(abandon(ye(who(enter(here))))))
+       ;;(java +lsp) ; the poster child for carpal tunnel syndrome
+       (javascript +lsp)       ; all(hope(abandon(ye(who(enter(here))))))
        ;;julia             ; a better, faster MATLAB
        ;;kotlin            ; a better, slicker Java(Script)
        ;;latex             ; writing papers in Emacs has never been so fun

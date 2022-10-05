@@ -45,7 +45,7 @@
       :ne "f" #'find-file
       :ne "r" #'consult-recent-file
       :ne "p" #'doom/open-private-config
-      :ne "c" (cmd! (find-file (expand-file-name "config.el" doom-private-dir)))
+      :ne "c" (cmd! (find-file (expand-file-name "config.el" doom-user-dir)))
       :ne "." (cmd! (doom-project-find-file "~/.config/")) ; . for dotfiles
       :ne "b" #'+vertico/switch-workspace-buffer
       :ne "B" #'consult-buffer
@@ -65,7 +65,7 @@
        ))
 
 ;; Store my bookmarks in my private directory
-(setq bookmark-default-file (expand-file-name "private/bookmarks" doom-private-dir))
+(setq bookmark-default-file (expand-file-name "private/bookmarks" doom-user-dir))
 
 (setq evil-mode-line-format nil
       evil-insert-state-cursor '(bar "Gold1")
@@ -138,7 +138,7 @@
    ))
 
 ;; Using Red Hat First logo as a banner! ;-)
-(setq fancy-splash-image (expand-file-name "red_hat_logo.png" doom-private-dir))
+(setq fancy-splash-image "~/.doom.d/red_hat_logo.png")
 ;; ;; Don't need the menu; I know them all by heart
 ;; (remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
 
