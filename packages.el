@@ -7,10 +7,23 @@
 
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
-;(package! some-package)
+                                        ;(package! some-package)
+
+(package! tldr)
+(package! info-colors :pin "47ee73cc19b1049eef32c9f3e264ea7ef2aaf8a5")
+
+(package! page-break-lines :recipe (:host github :repo "purcell/page-break-lines")
+  :pin "cc283621c64e4f1133a63e0945658a4abecf42ef")
 
 (package! org-bullets
   :recipe (:host github :repo "sabof/org-bullets"))
+
+(package! ef-themes :recipe (:host nil :repo "https://git.sr.ht/~protesilaos/ef-themes"))
+
+(package! xkcd :pin "688d0b4ea234adda0c05784e6bb22ab9d71f0884")
+
+(package! ox-gfm)
+(package! org-modern)
 
 (package! keychain-environment
   :recipe (:host github :repo "tarsius/keychain-environment"))
