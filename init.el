@@ -36,10 +36,10 @@
        ;;fill-column       ; a `fill-column' indicator
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
        ;; hydra
-       ;; modeline             ; snazzy, Atom-inspired modeline, plus API
-       (telephone-line        ; PRIVATE another modeline implementation
-        +minions
-        +keycast)
+       modeline             ; snazzy, Atom-inspired modeline, plus API
+       ;; (telephone-line        ; PRIVATE another modeline implementation
+       ;;  +minions
+       ;;  +keycast)
        ;; indent-guides     ; highlighted indent columns
        ;; ligatures        ; ligatures and symbols to make your code pretty again
        ;; minimap           ; show a map of the code on the side
