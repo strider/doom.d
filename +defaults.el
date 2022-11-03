@@ -21,6 +21,9 @@
 (setq display-time-format ".::. %a %e %b %H:%M .::.")
 (setq display-time-interval 60)
 
+;; Disabling fringes
+(fringe-mode '(0 . 0))
+
 ;; Prevents some cases of Emacs flickering
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 (add-to-list 'default-frame-alist '(fullscreen . fullheight))
