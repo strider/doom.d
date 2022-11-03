@@ -2,8 +2,8 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/Dropbox/org/")
-(setq org-noter-notes-search-path '("~/Dropbox/org/noter/"))
+(setq org-directory "~/Library/CloudStorage/Dropbox/org/")
+(setq org-noter-notes-search-path '("~/Library/CloudStorage/Dropbox/org/noter/"))
 
 ;; Disable line-numbers for org and text modes
 (add-hook 'org-mode-hook #'doom-disable-line-numbers-h)
@@ -22,7 +22,7 @@
 (setq-default bidi-paragraph-direction 'left-to-right)
 
 (after! org-roam
-  (setq org-roam-directory "~/Dropbox/org/roam"))
+  (setq org-roam-directory "~/Library/CloudStorage/Dropbox/org/roam"))
 
 (org-roam-db-autosync-mode)
 
@@ -110,29 +110,29 @@
                      (org-deadline-warning-days 365)))
             (todo "TODO"
                   ((org-agenda-overriding-header " Work")
-                   (org-agenda-files '("~/Dropbox/org/work.org"))
+                   (org-agenda-files '("~/Library/CloudStorage/Dropbox/org/work.org"))
                    (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline
                                                'scheduled))))
             (todo "TODO"
                   ((org-agenda-overriding-header " Personal")
-                   (org-agenda-files '("~/Dropbox/org/personal.org"))
+                   (org-agenda-files '("~/Library/CloudStorage/Dropbox/org/personal.org"))
                    (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline
                                                'scheduled))))
             (todo "TODO"
                   ((org-agenda-overriding-header " Ideas & Goals")
-                   (org-agenda-files '("~/Dropbox/org/ideas-goals.org"))
+                   (org-agenda-files '("~/Library/CloudStorage/Dropbox/org/ideas-goals.org"))
                    (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline
                                                'scheduled))))
             (todo "TODO"
                   ((org-agenda-overriding-header " Personal Habits")
-                   (org-agenda-files '("~/Dropbox/org/habits.org"))))
+                   (org-agenda-files '("~/Library/CloudStorage/Dropbox/org/habits.org"))))
             (todo "TODO"
                   ((org-agenda-overriding-header " Projects")
-                   (org-agenda-files '("~/Dropbox/org/projects.org"))
+                   (org-agenda-files '("~/Library/CloudStorage/Dropbox/org/projects.org"))
                    (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline
                                                'scheduled))))
             (todo "TODO"
-                  ((org-agenda-files '("~/Dropbox/org/reading.org"))
+                  ((org-agenda-files '("~/Library/CloudStorage/Dropbox/org/reading.org"))
                    (org-agenda-overriding-header " To Read")))
             ))
           ("h" "Daily habits"
@@ -175,21 +175,21 @@
 
 (with-eval-after-load 'org
   (setq org-capture-templates
-        '(("x" "TODO PERSONAL Tasks" entry (file+headline "~/Dropbox/org/personal.org" "PERSONAL TASKS")
+        '(("x" "TODO PERSONAL Tasks" entry (file+headline "~/Library/CloudStorage/Dropbox/org/personal.org" "PERSONAL TASKS")
            "\n* TODO %\\1 - %\\2%?\n:PROPERTIES:\n:DESCRIPTION: %^{DESCRIPTION}\n:TITLE: %^{TITLE}\n:END:\n:LOGBOOK:\n- Added: %u\n:END:\n"
            :prepend t :kill-buffer t)
           ("p" "Templates for projects")
-          ("pt" "Project TODO" entry (file+headline "~/Dropbox/org/projects.org" 'projectile-project-name)
+          ("pt" "Project TODO" entry (file+headline "~/Library/CloudStorage/Dropbox/org/projects.org" 'projectile-project-name)
            "* TODO %?\n%i\n%a" :prepend t)
-          ("w" "TODO WORK Tasks" entry (file+headline "~/Dropbox/org/work.org" "WORK TASKS")
+          ("w" "TODO WORK Tasks" entry (file+headline "~/Library/CloudStorage/Dropbox/org/work.org" "WORK TASKS")
            "\n* TODO %\\1 - %\\2%?\n:PROPERTIES:\n:DESCRIPTION: %^{DESCRIPTION}\n:TITLE: %^{TITLE}\n:END:\n:LOGBOOK:\n- Added: %u\n:END:\n"
            :prepend t :kill-buffer t)
-          ("i" "IDEA or GOAL" entry (file+headline "~/Dropbox/org/ideas-goals.org" "IDEAS AND GOALS")
+          ("i" "IDEA or GOAL" entry (file+headline "~/Library/CloudStorage/Dropbox/org/ideas-goals.org" "IDEAS AND GOALS")
            "\n* TODO %\\1 - %\\2%?\n:PROPERTIES:\n:DESCRIPTION: %^{DESCRIPTION}\n:TITLE: %^{TITLE}\n:END:\n:LOGBOOK:\n- Added: %u\n:END:\n"
            :prepend t :kill-buffer t)
-          ("h" "HABIT" entry (file+headline "~/Dropbox/org/habits.org" "HABITS")
+          ("h" "HABIT" entry (file+headline "~/Library/CloudStorage/Dropbox/org/habits.org" "HABITS")
            "\n* TODO %\\1%?\n:PROPERTIES:\n:TITLE: %^{TITLE}\n:STYLE: habit\n:END:\n:LOGBOOK:\n- Added: %u\n:END:\n" :prepend t :kill-buffer t)
-          ("c" "Contacts" entry (file "~/Dropbox/org/contacts.org")
+          ("c" "Contacts" entry (file "~/Library/CloudStorage/Dropbox/org/contacts.org")
            "* %\\1%?\n:PROPERTIES:\n:NAME: %^{NAME}\n:EMAIL:\n:PHONE:\n:ALIAS:\n:NICKNAME:\n:NOTE:\n:ADDRESS:\n:BIRTHDAY:\n:END:" :prepend t :kill-buffer t)
           )))
 
