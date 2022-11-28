@@ -270,3 +270,15 @@
       (with-current-buffer buffer
         (org-mode)
         (setq-local doom-real-buffer-p t)))))
+
+(setq-hook! org-mode
+  prettify-symbols-alist '(("#+end_quote" . "”")
+                           ("#+END_QUOTE" . "”")
+                           ("#+begin_quote" . "“")
+                           ("#+BEGIN_QUOTE" . "“")
+                           ("#+end_src" . "«")
+                           ("#+END_SRC" . "«")
+                           ("#+begin_src" . "»")
+                           ("#+BEGIN_SRC" . "»")
+                           ("#+name:" . "»")
+                           ("#+NAME:" . "»")))
