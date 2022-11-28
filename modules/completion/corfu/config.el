@@ -6,8 +6,8 @@
   :custom
   (corfu-separator ?\s)
   (corfu-auto t)
-  (corfu-auto-delay 0.0)
-  (corfu-preview-current nil)    ;; Disable current candidate preview
+  (corfu-auto-delay 0.2)
+  (corfu-preview-current nil) ;; Disable current candidate preview
   (corfu-on-exact-match nil)
   (corfu-quit-no-match 'separator)
   (corfu-cycle t)
@@ -41,15 +41,23 @@
             (lambda ()
               (setf (alist-get 'lsp-capf completion-category-defaults) '((styles . (orderless flex))))))
 
+  (defun corfu-move-to-minibuffer ()
+    "Move current completions to the minibuffer"
+    (interactive)
+    (let ((completion-extra-properties corfu--extra)
+          completion-cycle-threshold completion-cycling)
+      (apply #'consult-completion-in-region completion-in-region--data)))
+
   (map! :map corfu-map
         "C-SPC"    #'corfu-insert-separator
         "C-n"      #'corfu-next
         "C-p"      #'corfu-previous
+        "M-m"      #'corfu-move-to-minibuffer
         (:prefix "C-x"
-         "C-k"     #'cape-dict
-         "s"       #'cape-ispell
-         "C-n"     #'cape-keyword
-         "C-f"     #'cape-file))
+                 "C-k"     #'cape-dict
+                 "s"       #'cape-ispell
+                 "C-n"     #'cape-keyword
+                 "C-f"     #'cape-file))
   (after! evil
     (advice-add 'corfu--setup :after 'evil-normalize-keymaps)
     (advice-add 'corfu--teardown :after 'evil-normalize-keymaps)
@@ -66,15 +74,6 @@
   (unless (display-graphic-p)
     (corfu-doc-terminal-mode)
     (corfu-terminal-mode)))
-
-(use-package! corfu-doc
-  :hook (corfu-mode . corfu-doc-mode)
-  :custom
-  (corfu-doc-delay 0)
-  :bind (:map corfu-map
-         ("M-n" . corfu-doc-scroll-down)
-         ("M-p" . corfu-doc-scroll-up)
-         ("M-d" . corfu-doc-toggle)))
 
 (use-package! orderless
   :when (modulep! +orderless)
@@ -104,11 +103,11 @@
           (field "fd" :icon "application-braces-outline" :face font-lock-variable-name-face)
           (file "f" :icon "file" :face font-lock-string-face)
           (folder "d" :icon "folder" :face font-lock-doc-face)
-          (function "f" :icon "sigma" :face font-lock-function-name-face)
+          (function "f" :icon "lambda" :face font-lock-function-name-face)
           (interface "if" :icon "video-input-component" :face font-lock-type-face)
           (keyword "kw" :icon "image-filter-center-focus" :face font-lock-keyword-face)
-          (macro "mc" :icon "lambda" :face font-lock-keyword-face)
-          (method "m" :icon "sigma" :face font-lock-function-name-face)
+          (macro "mc" :icon "sigma" :face font-lock-keyword-face)
+          (method "m" :icon "lambda" :face font-lock-function-name-face)
           (module "{" :icon "view-module" :face font-lock-preprocessor-face)
           (numeric "nu" :icon "numeric" :face font-lock-builtin-face)
           (operator "op" :icon "plus-circle-outline" :face font-lock-comment-delimiter-face)
@@ -153,8 +152,39 @@
 (use-package! corfu-quick
   :after corfu
   :bind (:map corfu-map
-         ("M-q" . corfu-quick-complete)
-         ("C-q" . corfu-quick-insert)))
+              ("M-q" . corfu-quick-complete)
+              ("C-q" . corfu-quick-insert)))
+
+(use-package! corfu-echo
+  :after corfu
+  :hook (corfu-mode . corfu-echo-mode))
+
+
+(use-package! corfu-info
+  :after corfu)
+
+
+(use-package! corfu-popupinfo
+  :after corfu
+  :hook (corfu-mode . corfu-popupinfo-mode))
 
 (when (modulep! :editor evil +everywhere)
   (setq evil-collection-corfu-key-themes '(default magic-return)))
+
+(use-package! cape-yasnippet
+  :after cape
+  :init
+  (add-to-list 'completion-at-point-functions #'cape-yasnippet)
+  (after! lsp-mode
+    (add-hook 'lsp-managed-mode-hook #'cape-yasnippet--lsp))
+  (after! eglot
+    (add-hook 'eglot-managed-mode-hook #'cape-yasnippet--eglot)))
+
+;; Override :config default mapping by waiting for after corfu is loaded
+(add-hook! 'doom-after-modules-config-hook
+  (defun +corfu-unbind-yasnippet-h ()
+    "Remove problematic tab bindings in cmds! on :i TAB"
+    (map! :i [tab] nil
+          :i "TAB" nil
+          :i "C-SPC" #'completion-at-point
+          :i "C-@" #'completion-at-point)))
