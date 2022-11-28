@@ -145,3 +145,9 @@
                    (abbreviate-file-name (buffer-file-name))
                  "%b"))))
 
+(setq which-key-allow-multiple-replacements t)
+(after! which-key
+  (pushnew!
+   which-key-replacement-alist
+   '(("" . "\\`+?evil[-:]?\\(?:a-\\)?\\(.*\\)") . (nil . " \\1"))
+   '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . " \\1"))))
