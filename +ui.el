@@ -1,5 +1,8 @@
 ;;; +ui.el -*- lexical-binding: t; -*-
 
+;; Make the scratch buffer start in lisp mode
+(setq doom-scratch-initial-major-mode 'lisp-interaction-mode)
+
 (setq doom-font (font-spec :family "Agave" :size 18 :weight 'normal)
       doom-big-font (font-spec :family "Agave" :size 36 :weight 'normal)
       doom-variable-pitch-font (font-spec :family "Overpass" :size 18)
