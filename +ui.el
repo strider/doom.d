@@ -107,33 +107,45 @@
        :desc "New empty Org buffer"             "o" #'+evil-buffer-org-new
        ))
 
-(setq all-the-icons-scale-factor 1.1)
-
 (custom-set-faces!
   '(mode-line :family "Iosevka Term SS04" :height 0.9)
   '(mode-line-inactive :family "Iosevka Term SS04" :height 0.9))
 
+;; (after! doom-modeline
+;;   (doom-modeline-def-modeline 'main
+;;     '(bar matches buffer-info remote-host buffer-position word-count parrot selection-info)
+;;     '(misc-info debug lsp minor-modes checker input-method indent-info
+;;       buffer-encoding major-mode process checker vcs "    ")) ; <-- added padding here
+;;   (setq
+;;    doom-modeline-hud t
+;;    doom-modeline-bar-width 4
+;;    doom-modeline-major-mode-color-icon t
+;;    doom-modeline-major-mode-icon t
+;;    doom-modeline-lsp t
+;;    doom-modeline-buffer-file-name-style 'truncate-all
+;;    doom-modeline-display-default-persp-name t
+;;    doom-modeline-persp-name t
+;;    doom-modeline-gnus nil
+;;    doom-modeline-mu4e nil
+;;    doom-modeline-github nil
+;;    doom-modeline-minor-modes nil
+;;    doom-modeline-window-width-limit fill-column
+;;    doom-modeline-modal-icon t)
+;;  )
+
 (after! doom-modeline
+  (setq all-the-icons-scale-factor 1.1
+        auto-revert-check-vc-info t
+        doom-modeline-major-mode-icon (display-graphic-p)
+        doom-modeline-major-mode-color-icon (display-graphic-p)
+        doom-modeline-buffer-file-name-style 'relative-to-project
+        doom-modeline-github t
+        doom-modeline-github-interval 60
+        doom-modeline-vcs-max-length 60)
+  (remove-hook 'doom-modeline-mode-hook #'size-indication-mode)
   (doom-modeline-def-modeline 'main
-    '(bar matches buffer-info remote-host buffer-position word-count parrot selection-info)
-    '(misc-info debug lsp minor-modes checker input-method indent-info
-      buffer-encoding major-mode process checker vcs "    ")) ; <-- added padding here
-  (setq
-   doom-modeline-hud t
-   doom-modeline-bar-width 4
-   doom-modeline-major-mode-color-icon t
-   doom-modeline-major-mode-icon t
-   doom-modeline-lsp t
-   doom-modeline-buffer-file-name-style 'truncate-all
-   doom-modeline-display-default-persp-name t
-   doom-modeline-persp-name t
-   doom-modeline-gnus nil
-   doom-modeline-mu4e nil
-   doom-modeline-github nil
-   doom-modeline-minor-modes nil
-   doom-modeline-window-width-limit fill-column
-   doom-modeline-modal-icon t)
-  )
+    '(bar modals workspace-name window-number persp-name buffer-position selection-info buffer-info matches remote-host debug vcs matches)
+    '(github grip checker misc-info repl lsp "    ")))
 
 ;; Using Red Hat First logo as a banner! ;-)
 (setq fancy-splash-image "~/.doom.d/red_hat_logo.png")
