@@ -46,3 +46,6 @@
 (add-to-list 'git-commit-known-pseudo-headers "Change-Id")
 (add-to-list 'git-commit-known-pseudo-headers "Depends-On")
 (add-to-list 'git-commit-known-pseudo-headers "Needed-By")
+
+;; Allow forge to create repositories under my name
+(setq forge-owned-accounts '(("strider")))
