@@ -206,6 +206,28 @@
 (setq tramp-default-method "ssh")
 ;; (eval-after-load 'tramp '(setenv "SHELL" "/bin/bash"))
 
+;; Always compile vterm
+(setq vterm-always-compile-module t)
+;; If the process exits, kill the vterm buffer
+(setq vterm-kill-buffer-on-exit t)
+
+(after! vterm
+  (define-key vterm-mode-map (kbd "<C-backspace>") (lambda () (interactive)
+                                                     (vterm-send-key (kbd "C-w")))))
+
+(after! vterm
+  (setf (alist-get "woman" vterm-eval-cmds nil nil #'equal)
+        '((lambda (topic)
+            (woman topic))))
+  (setf (alist-get "magit-status" vterm-eval-cmds nil nil #'equal)
+        '((lambda (path)
+            (magit-status path))))
+  (setf (alist-get "dired" vterm-eval-cmds nil nil #'equal)
+        '((lambda (dir)
+            (dired dir)))))
+
+(setq vterm-shell "/bin/zsh")
+
 (autoload 'muttrc-mode "muttrc-mode.el"
   "Major mode to edit muttrc files" t)
 (setq auto-mode-alist
