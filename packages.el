@@ -10,7 +10,7 @@
                                         ;(package! some-package)
 
 (package! tldr)
-(package! info-colors :pin "47ee73cc19b1049eef32c9f3e264ea7ef2aaf8a5")
+(package! info-colors)
 
 (package! page-break-lines :recipe (:host github :repo "purcell/page-break-lines")
   :pin "cc283621c64e4f1133a63e0945658a4abecf42ef")

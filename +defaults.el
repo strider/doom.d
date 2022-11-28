@@ -242,3 +242,8 @@
 (setq ibuffer-marked-char ?✓)
 (setq ibuffer-deletion-char ?␡)
 (setq ibuffer-show-empty-filter-groups nil)
+
+(use-package! info-colors
+  :after info
+  :commands (info-colors-fontify-node)
+  :hook (Info-selection . info-colors-fontify-node))
