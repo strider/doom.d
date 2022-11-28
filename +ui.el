@@ -136,9 +136,12 @@
 (after! doom-modeline
   (setq all-the-icons-scale-factor 1.1
         auto-revert-check-vc-info t
+        doom-modeline-hud t
         doom-modeline-major-mode-icon (display-graphic-p)
         doom-modeline-major-mode-color-icon (display-graphic-p)
         doom-modeline-buffer-file-name-style 'relative-to-project
+        doom-modeline-persp-name t
+        doom-modeline-lsp t
         doom-modeline-github t
         doom-modeline-github-interval 60
         doom-modeline-vcs-max-length 60)
