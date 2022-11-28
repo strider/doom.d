@@ -86,38 +86,6 @@
 (setq python-shell-interpreter "/usr/local/bin/python")
 (setq python-shell-interpreter-args "")
 
-;; Here are some additional functions/macros that could help you configure Doom:
-;;
-;; - `load!' for loading external *.el files relative to this one
-;; - `use-package!' for configuring packages
-;; - `after!' for running code after a package has loaded
-;; - `add-load-path!' for adding directories to the `load-path', relative to
-;;   this file. Emacs searches the `load-path' when you load packages with
-;;   `require' or `use-package'.
-;; - `map!' for binding new keys
-;;
-;; To get information about any of these functions/macros, move the cursor over
-;; the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
-;; This will open documentation for it, including demos of how they are used.
-;;
-;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
-;; they are implemented.
-
-;; Disable Bidirectional Parentheses Algorithm
-(if (version<= "27.1" emacs-version)
-    (setq bidi-inhibit-bpa t))
-
-;; Files with known long lines
-;; SPC f l to open files literally to disable most text processing
-
-;; So long mode when Emacs thinks a file would affect performance
-(if (version<= "27.1" emacs-version)
-    (global-so-long-mode 1))
-
-;; End of: Emacs text rendering optimizations
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
 (after! focus
   (add-to-list 'focus-mode-to-thing '(python-mode . paragraph)))
 
