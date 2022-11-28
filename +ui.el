@@ -147,8 +147,7 @@
     '(bar modals workspace-name window-number persp-name buffer-position selection-info buffer-info matches remote-host debug vcs matches)
     '(github grip checker misc-info repl lsp "    ")))
 
-;; Using Red Hat First logo as a banner! ;-)
-(setq fancy-splash-image "~/.doom.d/red_hat_logo.png")
+(setq fancy-splash-image (expand-file-name "banner.png" doom-user-dir))
 
 ;; show the filepath in the frame title
 ;; http://emacsredux.com/blog/2013/04/07/display-visited-files-path-in-the-frame-title/
