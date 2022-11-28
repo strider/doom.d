@@ -24,6 +24,13 @@
 (after! org-roam
   (setq org-roam-directory "~/Library/CloudStorage/Dropbox/org/roam"))
 
+(after! org-roam
+  (setq org-roam-capture-templates
+        `(("d" "default" plain
+           (file ,(expand-file-name "templates/roam-default.org" doom-private-dir))
+           :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "")
+           :unnarrowed t))))
+
 (org-roam-db-autosync-mode)
 
 (setq org-hide-emphasis-markers t)

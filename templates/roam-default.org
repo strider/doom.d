@@ -1,0 +1,7 @@
+#+title: ${title}
+#+author: Gaël Chamoulaud
+#+created: %U
+#+last_modified: <2022-01-13 16:16>
+
+%?
+
