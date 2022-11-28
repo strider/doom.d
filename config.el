@@ -25,8 +25,8 @@
 
 (set-popup-rules! '(("^\\*helpful" :size 0.35)
                     ("^\\*Ibuffer\\*$" :size 0.35)
-                    ("^\\*info.*" :size 80 :side right)
-                    ("^\\*Man.*" :size 80 :side right)
+                    ("^\\*info.*" :size 100 :side right)
+                    ("^\\*Man.*" :size 100 :side right)
                     ("^\\*Customize" :actions display-buffer)
                     ("^\\*edit-indirect" :size 0.6)
                     ("^\\*YASnippet Tables\\*$" :size 0.35)
