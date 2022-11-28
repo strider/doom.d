@@ -95,6 +95,11 @@
  display-line-numbers-width 2                     ;; Enforce width to reduce computation
  )
 
+(dolist (mode '(org-mode-hook
+                term-mode-hook
+                shell-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
 (setq truncate-lines 1)
 (map! :leader
       :desc "Toggle truncate lines"

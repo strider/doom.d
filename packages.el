@@ -12,6 +12,9 @@
 (package! tldr)
 (package! info-colors)
 
+(package! org-appear
+  :recipe (:host github :repo "awth13/org-appear"))
+
 (package! page-break-lines :recipe (:host github :repo "purcell/page-break-lines")
   :pin "cc283621c64e4f1133a63e0945658a4abecf42ef")
 

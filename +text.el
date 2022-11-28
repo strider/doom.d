@@ -282,3 +282,13 @@
                            ("#+BEGIN_SRC" . "»")
                            ("#+name:" . "»")
                            ("#+NAME:" . "»")))
+
+(setq org-startup-folded 'content)
+
+(use-package! org-appear
+  :after org
+  :hook (org-mode . org-appear-mode)
+  :config
+  (setq org-appear-autoemphasis t
+        org-appear-autolinks t
+        org-appear-autosubmarkers t))
