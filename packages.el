@@ -12,6 +12,7 @@
 (package! tldr)
 (package! info-colors)
 
+(package! doct)
 (package! org-appear
   :recipe (:host github :repo "awth13/org-appear"))
 
@@ -98,19 +99,6 @@
   :recipe (:host github :repo "sensorflo/adoc-mode"))
 
 (package! company :disable t)
-
-;; (package! corfu
-;;   :recipe (:host github :repo "minad/corfu"))
-
-;; (package! corfu-doc
-;;   :recipe (:host github :repo "galeo/corfu-doc"))
-
-;; (package! kind-icon)
-;; (package! orderless
-;;   :recipe (:host github :repo "oantolin/orderless"))
-
-;; (package! cape
-;;   :recipe (:host github :repo "minad/cape"))
 
 (package! focus
   :recipe (:host github :repo "larstvei/Focus"))
