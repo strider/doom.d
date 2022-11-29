@@ -27,7 +27,7 @@
 (after! org-roam
   (setq org-roam-capture-templates
         `(("d" "default" plain
-           (file ,(expand-file-name "templates/roam-default.org" doom-private-dir))
+           (file ,(expand-file-name "templates/roam-default.org" doom-user-dir))
            :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "")
            :unnarrowed t))))
 
@@ -452,21 +452,21 @@ is selected, only the bare key is returned."
                  :template ("* TODO %?"
                             "%i %a"))
                 ("Personal" :keys "p"
-                 :icon ("home" :set "octicon" :color "cyan")
+                 :icon ("ruby" :set "octicon" :color "green")
                  :file "~/Library/CloudStorage/Dropbox/org/personal.org"
                  :prepend t
                  :headline "PERSONAL TASKS"
                  :template ("* TODO %?"
                             "%i %a"))
                 ("Ideas and Goals" :keys "i"
-                 :icon ("home" :set "octicon" :color "cyan")
+                 :icon ("light-bulb" :set "octicon" :color "red")
                  :file "~/Library/CloudStorage/Dropbox/org/ideas-goals.org"
                  :prepend t
                  :headline "IDEAS AND GOALS"
                  :template ("* TODO %r"
                             "%i %a"))
                 ("Work" :keys "w"
-                 :icon ("business" :set "material" :color "yellow")
+                 :icon ("business" :set "material" :color "brown")
                  :file "~/Library/CloudStorage/Dropbox/org/work.org"
                  :prepend t
                  :headline "WORK TASKS"
