@@ -94,8 +94,8 @@
 
 (map! :leader
       (:prefix-map ("e" . "gc-prefix")
-       :desc "Editing my work dot org file"     "w" (cmd! (find-file "~/Dropbox/org/work.org"))
-       :desc "Editing my personal dot org file" "p" (cmd! (find-file "~/Dropbox/org/personal.org"))
+       :desc "Editing my work dot org file"     "w" (cmd! (find-file "~/Library/CloudStorage/Dropbox/org/work.org"))
+       :desc "Editing my personal dot org file" "p" (cmd! (find-file "~/Library/CloudStorage/Dropbox/org/personal.org"))
        :desc "Editing my .yabairc file"         "y" (cmd! (find-file "~/.yabairc"))
        :desc "Editing my .skhdrc file"          "s" (cmd! (find-file "~/.skhdrc"))
        :desc "Editing my neomutt.rc file"       "m" (cmd! (find-file "~/.muttrc"))
