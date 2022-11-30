@@ -12,6 +12,15 @@
 (package! tldr)
 (package! info-colors)
 
+(package! define-words
+  :recipe (:host github :repo "abo-abo/define-word"))
+
+(package! powerthesaurus
+  :recipe (:host github :repo "SavchenkoValeriy/emacs-powerthesaurus"))
+
+(package! osx-dictionary
+  :recipe (:host github :repo "xuchunyang/osx-dictionary.el"))
+
 (package! doct)
 (package! org-appear
   :recipe (:host github :repo "awth13/org-appear"))

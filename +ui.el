@@ -107,6 +107,10 @@
        :desc "New empty Org buffer"             "o" #'+evil-buffer-org-new
        ))
 
+(global-set-key (kbd "C-c d") 'osx-dictionary-search-word-at-point)
+(global-set-key (kbd "C-c w") 'define-word-at-point)
+(global-set-key (kbd "C-c s") 'powerthesaurus-lookup-synonyms-dwim)
+
 (custom-set-faces!
   '(mode-line :family "Iosevka Term SS04" :height 0.9)
   '(mode-line-inactive :family "Iosevka Term SS04" :height 0.9))
