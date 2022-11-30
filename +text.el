@@ -449,22 +449,19 @@ is selected, only the bare key is returned."
                  :file "~/Library/CloudStorage/Dropbox/org/Home.org"
                  :prepend t
                  :headline "HOME TASKS"
-                 :template ("* TODO %?"
-                            "%i %a"))
-                ("Personal" :keys "p"
+                 :template ("* TODO %?"))
+                ("Personal" :keys "o"
                  :icon ("ruby" :set "octicon" :color "green")
                  :file "~/Library/CloudStorage/Dropbox/org/personal.org"
                  :prepend t
                  :headline "PERSONAL TASKS"
-                 :template ("* TODO %?"
-                            "%i %a"))
+                 :template ("* TODO %?"))
                 ("Ideas and Goals" :keys "i"
                  :icon ("light-bulb" :set "octicon" :color "red")
                  :file "~/Library/CloudStorage/Dropbox/org/ideas-goals.org"
                  :prepend t
                  :headline "IDEAS AND GOALS"
-                 :template ("* TODO %r"
-                            "%i %a"))
+                 :template ("* TODO %?\n"))
                 ("Work" :keys "w"
                  :icon ("business" :set "material" :color "brown")
                  :file "~/Library/CloudStorage/Dropbox/org/work.org"
@@ -472,8 +469,7 @@ is selected, only the bare key is returned."
                  :headline "WORK TASKS"
                  :template ("* TODO %?"
                             "SCHEDULED: %^{Schedule:}t"
-                            "DEADLINE: %^{Deadline:}t"
-                            "%i %a"))
+                            "DEADLINE: %^{Deadline:}t"))
                 ("Note" :keys "n"
                  :icon ("sticky-note" :set "faicon" :color "yellow")
                  :file "~/Library/CloudStorage/Dropbox/org/notes.org"
