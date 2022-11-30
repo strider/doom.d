@@ -154,7 +154,7 @@
     '(bar modals workspace-name window-number persp-name buffer-position selection-info buffer-info matches remote-host debug vcs matches)
     '(github grip checker misc-info repl lsp "    ")))
 
-(setq fancy-splash-image (expand-file-name "banner.png" doom-user-dir))
+(setq fancy-splash-image "~/.doom.d/banner.png")
 
 ;; show the filepath in the frame title
 ;; http://emacsredux.com/blog/2013/04/07/display-visited-files-path-in-the-frame-title/
