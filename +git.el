@@ -5,6 +5,9 @@
       '(non-empty-second-line
         overlong-summary-line))
 
+(after! magit
+  (setq magit-revision-show-gravatars '("^Author:     " . "^Commit:     ")))
+
 ;; (setq ghub-use-workaround-for-emacs-bug 'force)
 (after! magit
   (setq magit-diff-refine-hunk 'all)
@@ -49,3 +52,11 @@
 
 ;; Allow forge to create repositories under my name
 (setq forge-owned-accounts '(("strider")))
+
+(add-hook! 'code-review-mode-hook #'emojify-mode)
+(setq code-review-fill-column 80)
+(setq code-review-new-buffer-window-strategy #'switch-to-buffer)
+(add-hook 'code-review-mode-hook
+          (lambda ()
+            ;; include *Code-Review* buffer into current workspace
+            (persp-add-buffer (current-buffer))))
