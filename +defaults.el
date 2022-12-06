@@ -17,7 +17,7 @@
 
 (global-subword-mode 1)
 
-(display-time-mode 1)
+(display-time-mode 0)
 (setq display-time-format ".::. %a %e %b %H:%M .::.")
 (setq display-time-interval 60)
 

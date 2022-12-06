@@ -143,17 +143,20 @@
         doom-modeline-hud t
         doom-modeline-major-mode-icon (display-graphic-p)
         doom-modeline-major-mode-color-icon (display-graphic-p)
-        doom-modeline-buffer-file-name-style 'relative-to-project
+        doom-modeline-buffer-file-name-style 'truncate-all
         doom-modeline-persp-name t
+        doom-modeline-display-default-persp-name t
         doom-modeline-lsp t
         doom-modeline-github t
         doom-modeline-github-interval 60
         doom-modeline-vcs-max-length 60)
   (remove-hook 'doom-modeline-mode-hook #'size-indication-mode)
   (doom-modeline-def-modeline 'main
-    '(bar modals workspace-name window-number persp-name buffer-position selection-info buffer-info matches remote-host debug vcs matches)
-    '(github grip checker misc-info repl lsp "    ")))
+    '(bar modals matches workspace-name buffer-info buffer-position selection-info)
+    '(persp-name remote-host vcs github grip checker misc-info repl lsp battery "    "))
+  )
 
+(display-battery-mode 1)
 (setq fancy-splash-image "~/.doom.d/banner.png")
 
 ;; show the filepath in the frame title
