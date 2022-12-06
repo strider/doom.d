@@ -146,6 +146,8 @@
 (package! org-special-block-extras
   :recipe (:host github :repo "alhassy/org-special-block-extras"))
 
+(unpin! code-review)
+
 ;; (package! nov)
 
 ;; (package! erc-hl-nicks
