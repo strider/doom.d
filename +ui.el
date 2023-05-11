@@ -105,6 +105,7 @@
        :desc "Search for matching line"         "l" #'consult-line
        :desc "Jump to flycheck error"           "f" #'consult-flycheck
        :desc "New empty Org buffer"             "o" #'+evil-buffer-org-new
+       :desc "Emphasize"                        "e" #'org-emphasize
        ))
 
 (global-set-key (kbd "C-c d") 'osx-dictionary-search-word-at-point)

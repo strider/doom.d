@@ -5,6 +5,11 @@
 (setq org-directory "~/Library/CloudStorage/Dropbox/org/")
 (setq org-noter-notes-search-path '("~/Library/CloudStorage/Dropbox/org/noter/"))
 
+(defun gc/my-org-mode-hook ()
+  (setq fill-column 120))
+
+(add-hook 'org-mode-hook 'gc/my-org-mode-hook)
+
 ;; Disable line-numbers for org and text modes
 (add-hook 'org-mode-hook #'doom-disable-line-numbers-h)
 (add-hook 'text-mode-hook #'doom-disable-line-numbers-h)
